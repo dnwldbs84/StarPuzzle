@@ -1,0 +1,446 @@
+{
+	"soloGameLevelData": {
+		"1": {
+			"nextLevelScore": 300,
+			"dropDelay": 700,
+			"standbyGemAddDelay": 500,
+			"gemTypeCount": 5,
+			"specialDropRate": 0,
+			"shield1DropRate": 0,
+			"shield2DropRate": 0,
+			"shield3DropRate": 0,
+			"movableDropRate": 0,
+			"immovableDropRate": 0
+		},
+		"2": {
+			"nextLevelScore": 600,
+			"dropDelay": 650,
+			"standbyGemAddDelay": 500,
+			"gemTypeCount": 5,
+			"specialDropRate": 0,
+			"shield1DropRate": 0,
+			"shield2DropRate": 0,
+			"shield3DropRate": 0,
+			"movableDropRate": 0,
+			"immovableDropRate": 0
+		},
+		"3": {
+			"nextLevelScore": 1200,
+			"dropDelay": 600,
+			"standbyGemAddDelay": 500,
+			"gemTypeCount": 5,
+			"specialDropRate": 10,
+			"shield1DropRate": 100,
+			"shield2DropRate": 0,
+			"shield3DropRate": 0,
+			"movableDropRate": 0,
+			"immovableDropRate": 0
+		},
+		"4": {
+			"nextLevelScore": 2100,
+			"dropDelay": 580,
+			"standbyGemAddDelay": 480,
+			"gemTypeCount": 5,
+			"specialDropRate": 10,
+			"shield1DropRate": 100,
+			"shield2DropRate": 0,
+			"shield3DropRate": 0,
+			"movableDropRate": 0,
+			"immovableDropRate": 0
+		},
+		"5": {
+			"nextLevelScore": 3300,
+			"dropDelay": 560,
+			"standbyGemAddDelay": 460,
+			"gemTypeCount": 5,
+			"specialDropRate": 10,
+			"shield1DropRate": 70,
+			"shield2DropRate": 30,
+			"shield3DropRate": 0,
+			"movableDropRate": 0,
+			"immovableDropRate": 0
+		},
+		"6": {
+			"nextLevelScore": 4800,
+			"dropDelay": 550,
+			"standbyGemAddDelay": 450,
+			"gemTypeCount": 5,
+			"specialDropRate": 10,
+			"shield1DropRate": 70,
+			"shield2DropRate": 30,
+			"shield3DropRate": 0,
+			"movableDropRate": 0,
+			"immovableDropRate": 0
+		},
+		"7": {
+			"nextLevelScore": 6600,
+			"dropDelay": 540,
+			"standbyGemAddDelay": 440,
+			"gemTypeCount": 5,
+			"specialDropRate": 15,
+			"shield1DropRate": 60,
+			"shield2DropRate": 30,
+			"shield3DropRate": 0,
+			"movableDropRate": 10,
+			"immovableDropRate": 0
+		},
+		"8": {
+			"nextLevelScore": 8700,
+			"dropDelay": 530,
+			"standbyGemAddDelay": 430,
+			"gemTypeCount": 5,
+			"specialDropRate": 15,
+			"shield1DropRate": 60,
+			"shield2DropRate": 30,
+			"shield3DropRate": 0,
+			"movableDropRate": 10,
+			"immovableDropRate": 0
+		},
+		"9": {
+			"nextLevelScore": 11100,
+			"dropDelay": 520,
+			"standbyGemAddDelay": 420,
+			"gemTypeCount": 5,
+			"specialDropRate": 15,
+			"shield1DropRate": 50,
+			"shield2DropRate": 30,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 0
+		},
+		"10": {
+			"nextLevelScore": 13800,
+			"dropDelay": 500,
+			"standbyGemAddDelay": 400,
+			"gemTypeCount": 5,
+			"specialDropRate": 15,
+			"shield1DropRate": 50,
+			"shield2DropRate": 30,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 0
+		},
+		"11": {
+			"nextLevelScore": 16800,
+			"dropDelay": 480,
+			"standbyGemAddDelay": 380,
+			"gemTypeCount": 5,
+			"specialDropRate": 20,
+			"shield1DropRate": 40,
+			"shield2DropRate": 35,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 5
+		},
+		"12": {
+			"nextLevelScore": 20100,
+			"dropDelay": 460,
+			"standbyGemAddDelay": 360,
+			"gemTypeCount": 5,
+			"specialDropRate": 20,
+			"shield1DropRate": 40,
+			"shield2DropRate": 35,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 5
+		},
+		"13": {
+			"nextLevelScore": 23700,
+			"dropDelay": 440,
+			"standbyGemAddDelay": 340,
+			"gemTypeCount": 5,
+			"specialDropRate": 20,
+			"shield1DropRate": 40,
+			"shield2DropRate": 35,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 5
+		},
+		"14": {
+			"nextLevelScore": 27600,
+			"dropDelay": 420,
+			"standbyGemAddDelay": 320,
+			"gemTypeCount": 5,
+			"specialDropRate": 20,
+			"shield1DropRate": 30,
+			"shield2DropRate": 40,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 10
+		},
+		"15": {
+			"nextLevelScore": 31800,
+			"dropDelay": 400,
+			"standbyGemAddDelay": 300,
+			"gemTypeCount": 5,
+			"specialDropRate": 20,
+			"shield1DropRate": 30,
+			"shield2DropRate": 40,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 10
+		},
+		"16": {
+			"nextLevelScore": 36300,
+			"dropDelay": 380,
+			"standbyGemAddDelay": 280,
+			"gemTypeCount": 5,
+			"specialDropRate": 25,
+			"shield1DropRate": 30,
+			"shield2DropRate": 40,
+			"shield3DropRate": 0,
+			"movableDropRate": 20,
+			"immovableDropRate": 10
+		},
+		"17": {
+			"nextLevelScore": 41100,
+			"dropDelay": 360,
+			"standbyGemAddDelay": 260,
+			"gemTypeCount": 5,
+			"specialDropRate": 25,
+			"shield1DropRate": 20,
+			"shield2DropRate": 45,
+			"shield3DropRate": 0,
+			"movableDropRate": 25,
+			"immovableDropRate": 10
+		},
+		"18": {
+			"nextLevelScore": 46200,
+			"dropDelay": 340,
+			"standbyGemAddDelay": 240,
+			"gemTypeCount": 5,
+			"specialDropRate": 25,
+			"shield1DropRate": 20,
+			"shield2DropRate": 45,
+			"shield3DropRate": 0,
+			"movableDropRate": 25,
+			"immovableDropRate": 10
+		},
+		"19": {
+			"nextLevelScore": 51600,
+			"dropDelay": 320,
+			"standbyGemAddDelay": 220,
+			"gemTypeCount": 5,
+			"specialDropRate": 25,
+			"shield1DropRate": 20,
+			"shield2DropRate": 45,
+			"shield3DropRate": 0,
+			"movableDropRate": 25,
+			"immovableDropRate": 10
+		},
+		"20": {
+			"nextLevelScore": 0,
+			"dropDelay": 300,
+			"standbyGemAddDelay": 200,
+			"gemTypeCount": 6,
+			"specialDropRate": 30,
+			"shield1DropRate": 20,
+			"shield2DropRate": 45,
+			"shield3DropRate": 0,
+			"movableDropRate": 25,
+			"immovableDropRate": 10
+		}
+	},
+	"engagementGameLevelData": {
+		"1": {
+			"nextLevelScore": 300,
+			"dropDelay": 700,
+			"standbyGemAddDelay": 500,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 0,
+			"additionalScoreMin": 0,
+			"additionalScoreMax": 0
+		},
+		"2": {
+			"nextLevelScore": 600,
+			"dropDelay": 650,
+			"standbyGemAddDelay": 500,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 0,
+			"additionalScoreMin": 0,
+			"additionalScoreMax": 0
+		},
+		"3": {
+			"nextLevelScore": 1200,
+			"dropDelay": 600,
+			"standbyGemAddDelay": 500,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 10,
+			"additionalScoreMin": 50,
+			"additionalScoreMax": 75
+		},
+		"4": {
+			"nextLevelScore": 2100,
+			"dropDelay": 580,
+			"standbyGemAddDelay": 480,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 10,
+			"additionalScoreMin": 50,
+			"additionalScoreMax": 75
+		},
+		"5": {
+			"nextLevelScore": 3300,
+			"dropDelay": 560,
+			"standbyGemAddDelay": 460,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 10,
+			"additionalScoreMin": 50,
+			"additionalScoreMax": 75
+		},
+		"6": {
+			"nextLevelScore": 4800,
+			"dropDelay": 550,
+			"standbyGemAddDelay": 450,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 10,
+			"additionalScoreMin": 50,
+			"additionalScoreMax": 75
+		},
+		"7": {
+			"nextLevelScore": 6600,
+			"dropDelay": 540,
+			"standbyGemAddDelay": 440,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 15,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 100
+		},
+		"8": {
+			"nextLevelScore": 8700,
+			"dropDelay": 530,
+			"standbyGemAddDelay": 430,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 15,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 100
+		},
+		"9": {
+			"nextLevelScore": 11100,
+			"dropDelay": 520,
+			"standbyGemAddDelay": 420,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 15,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 100
+		},
+		"10": {
+			"nextLevelScore": 13800,
+			"dropDelay": 500,
+			"standbyGemAddDelay": 400,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 15,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 100
+		},
+		"11": {
+			"nextLevelScore": 16800,
+			"dropDelay": 480,
+			"standbyGemAddDelay": 380,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 20,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 125
+		},
+		"12": {
+			"nextLevelScore": 20100,
+			"dropDelay": 460,
+			"standbyGemAddDelay": 360,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 20,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 125
+		},
+		"13": {
+			"nextLevelScore": 23700,
+			"dropDelay": 440,
+			"standbyGemAddDelay": 340,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 20,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 125
+		},
+		"14": {
+			"nextLevelScore": 27600,
+			"dropDelay": 420,
+			"standbyGemAddDelay": 320,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 20,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 125
+		},
+		"15": {
+			"nextLevelScore": 31800,
+			"dropDelay": 400,
+			"standbyGemAddDelay": 300,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 20,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 125
+		},
+		"16": {
+			"nextLevelScore": 36300,
+			"dropDelay": 380,
+			"standbyGemAddDelay": 280,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 25,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 150
+		},
+		"17": {
+			"nextLevelScore": 41100,
+			"dropDelay": 360,
+			"standbyGemAddDelay": 260,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 25,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 150
+		},
+		"18": {
+			"nextLevelScore": 46200,
+			"dropDelay": 340,
+			"standbyGemAddDelay": 240,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 25,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 150
+		},
+		"19": {
+			"nextLevelScore": 51600,
+			"dropDelay": 320,
+			"standbyGemAddDelay": 220,
+			"gemTypeCount": 5,
+			"additionalScoreGemDropRate": 25,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 150
+		},
+		"20": {
+			"nextLevelScore": 0,
+			"dropDelay": 300,
+			"standbyGemAddDelay": 200,
+			"gemTypeCount": 6,
+			"additionalScoreGemDropRate": 30,
+			"additionalScoreMin": 75,
+			"additionalScoreMax": 150
+		}
+	},
+	"skillData": {
+		"1": {
+			"name": "RANDOM COLOR",
+			"desc": "Level1 : Destroy 7 stars \\nLevel2 : Completely destroy 7 stars",
+			"requiredScore1": 2000,
+			"requiredScore2": 4000
+		},
+		"2": {
+			"name": "NEAR CIRCLE",
+			"desc": "Level1 : Destroy near circle stars \\nLevel2 : Completely destroy near circle",
+			"requiredScore1": 1500,
+			"requiredScore2": 4000
+		},
+		"3": {
+			"name": "CROSS",
+			"desc": "Level1 : Destroy cross stars \\nLevel2 : Destroy cross and near stars",
+			"requiredScore1": 1500,
+			"requiredScore2": 3000
+		}
+	}
+}

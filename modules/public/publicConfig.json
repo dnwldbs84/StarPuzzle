@@ -1,0 +1,80 @@
+{
+  "MESSAGE_DATA_TYPE" : {
+    "STRING" : 1,
+    "INTEGER" : 2,
+    "INT_ARRAY" : 3
+  },
+  "MESSAGE_TYPE" : {
+    "JOIN_GAME" : 1,
+    "SYNC_UID": 2,
+    "SUCCESS_SYNC_UID" : 3,
+    "FAIL_TO_SYNC_UID" : 4,
+    "CHECK_SYNC_UID" : 5,
+    "FIND_MATCH" : 6,
+    "MATCH_FOUND" : 7,
+    "MATCH_FOUND_ON_BLUR" : 8,
+    "CANCEL_MATCH" : 9,
+    "MATCH_CANCELED" : 10,
+    "REQ_RESYNC_UID" : 11,
+
+    "PLAY_SOLO" : 12,
+    "PLAY_PVC" : 13,
+
+    "SOLO_GAME_OVER" : 14,
+    "PVC_WIN_GAME" : 15,
+
+    "ON_FOCUS" : 18,
+    "ON_BLUR" : 19,
+
+    "READY_FOR_GAME" : 20,
+    "SYNC_SKILL" : 21,
+    "SET_INIT_GEM" : 22,
+    "MOVE_MAIN_GEM" : 23,
+    "DROP_GEMS" : 24,
+    "EXPLODE_GEMS" : 25,
+    "USE_SKILL" : 26,
+    "USE_SKILL2" : 27,
+    "EXPLODE_GEM_BY_SKILL" : 28,
+    "ADD_STANDBY_GEM" : 29,
+    "DROP_STANDBY_GEM" : 30,
+    "LEVEL_UP" : 31,
+    "GEM_ADD_SCORE" : 32,
+    "REMOVE_IMMORTAL_GEM" : 33,
+    "REQ_GEMS_INFO" : 34,
+    "RES_GEMS_INFO" : 35,
+    "GAME_OVER" : 36,
+    "RESET_IDS" : 37,
+    "GAME_CANCELED" : 38,
+    "QUIT_GAME" : 39,
+
+    "GOTO_ERROR" : 50,
+    "DUPLICATE_JOIN" : 51,
+
+    "INSTRUCTION" : 54,
+    "CHAT_ON_LOBBY" : 55,
+    "JOIN_LOBBY" : 56,
+    "REQ_USERS_ON_LOBBY" : 57,
+    "EXIT_LOBBY" : 58,
+    "CHAT_ON_GAME" : 59,
+    "LEAVE_GAME" : 60,
+
+    "HIGH_RESOURCE_USAGE" : 61,
+
+    "CHAT_TO_ALL" : 62,
+    "CHAT_TO_ROOM" : 63,
+    "CHAT_TO_SELF" : 64
+  },
+
+  "START_ROWS" : 8,
+  "BOARD_COLS" : 6,
+  "BOARD_ROWS" : 14,
+  "MATCH_MIN" : 3,
+
+  "AI_DIFFICULTY_EASY" : 1,
+  "AI_DIFFICULTY_NORMAL" : 2,
+  "AI_DIFFICULTY_HARD" : 3,
+
+  "RANK_COUNT" : 30,
+
+  "MAX_STRING_LENGTH" : 125
+}

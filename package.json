@@ -1,0 +1,39 @@
+{
+  "name": "project2",
+  "version": "1.0.0",
+  "description": "Three match competition game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "WooksDev",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^3.3.3",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mysql": "^2.15.0",
+    "npm": "^6.4.1",
+    "os-utils": "0.0.14",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "redis": "^2.8.0",
+    "text-encoding": "^0.6.4",
+    "ws": "^5.1.1"
+  },
+  "devDependencies": {
+    "@orange-games/phaser-input": "^2.0.5",
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-uglify-es": "^3.3.0"
+  }
+}
