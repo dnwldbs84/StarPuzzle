@@ -3,8 +3,8 @@
 var setting = {
   socketPath : '/var/run/mysqld/mysqld.sock',
   host: 'localhost',
-  user: 'root',
-  password: '0000',
+  user: 'WooksDev',
+  password: 'dbs5277',
   database: 'world',
 
   dateStrings: 'date'
