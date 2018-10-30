@@ -30,17 +30,22 @@ if (process.platform === 'linux') {
         line = lines[1].split(/\s+/),
         total = parseInt(line[1], 10),
         free = parseInt(line[3], 10),
-        buff_cache = parseInt(line[5], 10),
-        available = parseInt(line[6], 10),
-        actualFree = free + buff_cache;
+        buffers = parseInt(line[5], 10),
+        cached = parseInt(line[6], 10),
+        // buff_cache = parseInt(line[5], 10),
+        // available = parseInt(line[6], 10),
+        // actualFree = free + buff_cache;
+        actualFree = free + buffers + cached;
 
     memory = {
         total: total,
         used: parseInt(line[2], 10),
         free: free,
         shared: parseInt(line[4], 10),
-        buff_cache: buff_cache,
-        available: available,
+        buffers: buffers,
+        cached: cached,
+        // buff_cache: buff_cache,
+        // available: available,
         actualFree: actualFree,
         percentFree: parseFloat((actualFree / total).toFixed(2))
     };
@@ -69,7 +74,7 @@ exports.initMaster = function(cluster) {
       if (process.platform === 'linux') {
         spawn("free", []);
         var freeMemory = memory.percentFree;
-        // console.log(memory);
+        console.log(memory);
       } else {
         freeMemory = os.freememPercentage();
       }
