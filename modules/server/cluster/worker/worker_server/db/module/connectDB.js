@@ -12,7 +12,7 @@ var setting = {
 
 exports.connect = function(mysql) {
   var fs = require('fs');
-  var text = fs.readFileSync('setting.txt');
+  var text = fs.readFileSync('DBSetting.txt', 'utf8');
   var datas = text.split(',');
   setting.user = datas[0];
   setting.password = datas[1];
