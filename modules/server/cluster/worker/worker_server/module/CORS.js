@@ -8,7 +8,7 @@ exports.allowCORS = function(allowedOrigins) {
     // res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    res.header('Access-Control-Max-Age', 10);
+    res.header('Access-Control-Max-Age', 86400);
     (req.method === 'OPTIONS') ? res.sendStatus(200) : next();
   }
 }
