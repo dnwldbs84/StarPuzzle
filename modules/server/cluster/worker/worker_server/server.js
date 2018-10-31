@@ -136,6 +136,9 @@ function initRouter() {
     // passport.authenticate('local', { failureRedirect: '/failToLogin' }),
     serverModule.router.postLeaveGame);
 
+  app.get('/terms-and-conditions', serverModule.router.getTermsAndConditions);
+  app.get('/privacy-policy', serverModule.router.getPrivacyPolicy);
+
   app.get('/error', serverModule.router.getError);
   app.get('/no-action', serverModule.router.getNoAction);
   app.get('/login-fail', serverModule.router.getFailToLogin);

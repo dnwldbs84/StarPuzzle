@@ -96,6 +96,12 @@ exports.getAuthSuccess = function(req, res) {
     else { res.redirect('/'); }
   }
 }
+exports.getTermsAndConditions = function(req, res) {
+  res.render('termsAndConditions');
+}
+exports.getPrivacyPolicy = function(req, res) {
+  res.render('privacyPolicy');
+}
 exports.getError = function(req, res) {
   res.render('error', { text: 'Sorry, Unexpected Error has occured.' });
 }
