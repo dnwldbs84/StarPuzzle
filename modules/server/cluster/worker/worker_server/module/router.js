@@ -29,7 +29,8 @@ exports.getDown = function(req, res) {
 }
 exports.postPlayAsGuest = function(req, res) {
   if (!req.session.userID) { req.session.userID = req.user.userID; }
-  res.send({ user: setClientUser(req.user) });
+  res.end();
+  // res.send({ user: setClientUser(req.user) });
 }
 exports.postChangeName = function(req, res) {
   if (req.body.name) {

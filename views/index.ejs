@@ -4,6 +4,25 @@
     <title>Star Puzzle</title>
     <!-- <link rel="stylesheet" type="text/css" href="/css/main.css"> -->
     <link rel="stylesheet" type="text/css" href="/build/css/main.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112883634-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-112883634-2');
+    </script>
+    <!-- user report -->
+    <script type="text/javascript">
+      window._urq = window._urq || [];
+      _urq.push(['initSite', 'f4197b93-e0bb-40a7-bf20-44e059b67c8b']);
+      (function() {
+      var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+      ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+      })();
+    </script>
     <script>
     <% if (user) { %>
       var user = <%- JSON.stringify(user) %>;
@@ -17,7 +36,7 @@
     <div id="game">
       <div id="blur-game" class="blur disable"></div>
     </div>
-    <div id="ajax-loading" class="disable"><img src="https://i.gifer.com/DzUd.gif" /></div>
+    <div id="ajax-loading" class="disable"><img src="/assets/images/ajaxLoading.gif" /></div>
     <div id="lobby-chatting" class="disable">
       <div id="lobby-chat-container"></div>
       <div id="lobby-chat-users"><div id="lobby-chat-user-count">0</div></div>
@@ -31,8 +50,8 @@
     </div>
     <div id="ad-container" class="disable"></div>
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script> -->
-    <!-- <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.11.0"></script> --> <!-- minified version -->
-    <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.11.0/build/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.11.0"></script> <!-- minified version -->
+    <!-- <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.11.0/build/phaser.js"></script> -->
     <script src="/build/bundle.min.js"></script>
     <!-- <script src="/js/util/global.js"></script> -->
     <!-- <script src="/js/util/phaser-input.js"></script> -->

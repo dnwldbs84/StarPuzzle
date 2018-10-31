@@ -1,7 +1,7 @@
 // var mysql = require('mysql');
 // replace to file
 var setting = {
-  socketPath : '/var/run/mysqld/mysqld.sock',
+  // socketPath : '/var/run/mysqld/mysqld.sock',
   host: 'localhost',
   user: '',
   password: '',
