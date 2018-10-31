@@ -41,7 +41,7 @@ function initServerSetting() {
   // __dirname + '/views');
   app.set('view engine', 'ejs');
 
-  app.use(serverModule.CORS.allowCORS(['http://localhost']));
+  app.use(serverModule.CORS.allowCORS(['http://localhost', 'http://star-puzzle.io', 'https://star-puzzle.io']));
 
   app.use(require('cookie-parser')());
   app.use(require('body-parser').urlencoded({ extended: false }));

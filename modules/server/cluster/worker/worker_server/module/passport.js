@@ -12,11 +12,11 @@ exports.localStrategy = function(db) {
 
 exports.googleStrategy = function(db) {
   return new GoogleStrategy({
-      clientID: '699894960088-f0p8l9ns2cmkq3dg4i69ta14kl7gef8o.apps.googleusercontent.com',
-      clientSecret: 'eYWYb0kNl_ALGc8O54pZovcr',
+      clientID: '699894960088-1etu7b6i26285s7jpmdfc3n65rs6345d.apps.googleusercontent.com',
+      clientSecret: '4YDNX_mrMm0r9JXu1NRwaEfn',
       // clientID: GOOGLE_CLIENT_ID,
       // clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost/auth/google/callback"
+      callbackURL: "https://star-puzzle/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
       process.nextTick(function() {
