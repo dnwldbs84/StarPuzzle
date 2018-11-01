@@ -16,7 +16,7 @@ exports.googleStrategy = function(db) {
       clientSecret: '4YDNX_mrMm0r9JXu1NRwaEfn',
       // clientID: GOOGLE_CLIENT_ID,
       // clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://star-puzzle/auth/google/callback"
+      callbackURL: "https://star-puzzle.io/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
       process.nextTick(function() {
