@@ -6,13 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/build/css/main.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112883634-2"></script>
-    <script>
+    <!-- <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
       gtag('config', 'UA-112883634-2');
-    </script>
+    </script> -->
     <!-- user report -->
     <script type="text/javascript">
       window._urq = window._urq || [];
@@ -27,7 +27,12 @@
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9c8c1023-4074-4024-9043-c49d72af2d12" type="text/javascript" async></script>
     <script type="text/javascript">
       function CookiebotCallback_OnAccept() {
-        console.log('hi');
+        // enable google analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-112883634-2');
       }
     </script>
     <script>
