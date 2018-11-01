@@ -1,5 +1,6 @@
 var Strategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 exports.localStrategy = function(db) {
   return new Strategy(
