@@ -26,9 +26,23 @@ exports.googleStrategy = function(db) {
       // db.user.findOrCreateGoogle(profile, function(err, user) {
       //   return cb(err, user);
       // });
-  });
+    }
+  );
 }
-
+exports.facebookStrategy = function(db) {
+  return new FacebookStrategy({
+      clientID: 2239616269617512,
+      clientSecret: '7320c99eeeb310d4eb5c6316a61d61a6',
+      callbackURL: "https://star-puzzle.io/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      process.nextTick(function() {
+        console.log('facebook strategy');
+        return cb(null, profile);
+      });
+    }
+  );
+}
 exports.serialize = function() {
   return function(user, cb) {
     console.log('serialize');

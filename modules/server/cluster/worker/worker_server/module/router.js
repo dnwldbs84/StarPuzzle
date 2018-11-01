@@ -61,8 +61,8 @@ exports.postLeaveGame = function(req, res) {
 exports.postProfile = function(req, res) {
   res.send({ user: setClientUser(req.user) });
 }
-exports.getAuthSuccess = function(req, res) {
-  console.log('getAuthSuccess');
+exports.getAuthSuccessGoogle = function(req, res) {
+  console.log('getAuthSuccess google');
   // console.log(req.user);
   // console.log(req.session.userID);
   if (req.user) {
@@ -75,7 +75,7 @@ exports.getAuthSuccess = function(req, res) {
     }
   }
   function onComplete(err, result) {
-    if (err) { exports.getFailToLogin(req, res); }
+    if (err || !result) { exports.getFailToLogin(req, res); }
     else {
       req.session.userID = result.id;
       req.session.passport.user = result.id;
@@ -88,10 +88,37 @@ exports.getAuthSuccess = function(req, res) {
   }
   function onDuplicate(err, result) {
     req.session.passport.user = req.session.userID;
-
     console.log('on duplicate google');
     req.flash('info', 'duplicate');
-
+    if (err) { exports.getFailToLogin(req, res); }
+    else { res.redirect('/'); }
+  }
+}
+exports.getAuthSuccessFacebook = function(req, res) {
+  console.log('getAuthSuccess facebook');
+  if (req.user) {
+    if (req.session.userID) {
+      console.log('merging');
+      db.user.findOrMergingFacebook(req.session.userID, req.user, onComplete, onDuplicate);
+    } else {
+      console.log('create');
+      db.user.findOrCreateFacebook(req.user, onComplete);
+    }
+  }
+  function onComplete(err, result) {
+    if (err || !result) { exports.getFailToLogin(req, res); }
+    else {
+      req.session.userID = result.id;
+      req.session.passport.user = result.id;
+      req.user = result;
+      console.log('on complete facebook');
+      res.redirect('/');
+    }
+  }
+  function onDuplicate(err, result) {
+    req.session.passport.user = req.session.userID;
+    console.log('on duplicate facebook');
+    req.flash('info', 'duplicate');
     if (err) { exports.getFailToLogin(req, res); }
     else { res.redirect('/'); }
   }

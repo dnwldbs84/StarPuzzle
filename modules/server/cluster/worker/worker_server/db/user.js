@@ -46,31 +46,85 @@ exports.findOrCreateGoogle = function(profile, cb) {
 exports.findOrMergingGoogle = function(userID, profile, cb, onDuplicate) {
   process.nextTick(function() {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
-      if (result && result.googleId) {
-        console.log('on find google(merging)');
-        cb(null, result);
+      if (result) {
+        if (result.googleId || result.facebookId)) {
+          console.log('on find google(merging)');
+          cb(null, result);
+        } else {
+          // check already registed;
+          module.query.findData(conn, 'user', 'googleId', profile.id, function(err, checkResult) {
+            if (!checkResult) {
+              var query = 'UPDATE user SET googleId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
+              module.query.queryDirectly(conn, query, function(updateResult) {
+                // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
+                  console.log('on merging google');
+                  module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
+                    cb(err, findResult);
+                  });
+                });
+            } else {
+              console.log('on find google(merging, duplicate)');
+              onDuplicate(null, checkResult);
+            }
+          });
+        }
+      } else { cb(err); }
+    });
+  });
+}
+exports.findOrCreateFacebook = function(profile, cb) {
+  process.nextTick(function() {
+    // check already join
+    module.query.findData(conn, 'user', 'facebookId', profile.id, function(err, result) {
+      if (result) {
+        console.log('on find facebook');
+        console.log(result);
+        cb(err, result);
       } else {
-        // check already registed;
-        module.query.findData(conn, 'user', 'googleId', profile.id, function(err, checkResult) {
-          if (!checkResult) {
-            var query = 'UPDATE user SET googleId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
-            module.query.queryDirectly(conn, query, function(updateResult) {
-            // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
-              console.log('on merging google');
-              module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
-                cb(err, findResult);
-              });
-            });
-          } else {
-            console.log('on find google(merging, duplicate)');
-            onDuplicate(null, checkResult);
-          }
-        })
+        // create new user
+        var user = new model.UserModel({ displayName: profile.displayName, facebookId: profile.id });
+        // var user = {
+        //   googleId: profile.id,
+        //   displayName: profile.displayName,
+        // }
+        module.query.insertData(conn, 'user', user, function(insertResult) {
+          module.query.findData(conn, 'user', 'id', insertResult.insertId, function(err, findResult) {
+            cb(err, findResult);
+          });
+        });
       }
     });
   });
 }
-
+exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
+  process.nextTick(function() {
+    module.query.findData(conn, 'user', 'id', userID, function(err, result) {
+      if (result) {
+        if (result.googleId || result.facebookId)) {
+          console.log('on find facebook(merging)');
+          cb(null, result);
+        } else {
+          // check already registed;
+          module.query.findData(conn, 'user', 'facebookId', profile.id, function(err, checkResult) {
+            if (!checkResult) {
+              var query = 'UPDATE user SET facebookId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
+              module.query.queryDirectly(conn, query, function(updateResult) {
+                // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
+                  console.log('on merging facebook');
+                  module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
+                    cb(err, findResult);
+                  });
+                });
+            } else {
+              console.log('on find facebook(merging, duplicate)');
+              onDuplicate(null, checkResult);
+            }
+          });
+        }
+      } else { cb(err); }
+    });
+  });
+}
 exports.createGuest = function(cb) {
   process.nextTick(function() {
     // find id

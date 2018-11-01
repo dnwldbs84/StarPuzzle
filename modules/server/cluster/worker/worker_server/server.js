@@ -34,6 +34,7 @@ exports.cancelServerDown = function() {
 function initServerSetting() {
   passport.use(serverModule.passport.localStrategy(db));
   passport.use(serverModule.passport.googleStrategy(db));
+  passport.use(serverModule.passport.facebookStrategy(db));
   passport.serializeUser(serverModule.passport.serialize());
   passport.deserializeUser(serverModule.passport.deserialize(db));
 
@@ -150,7 +151,14 @@ function initRouter() {
 
   app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login-fail' }),
-    serverModule.router.getAuthSuccess);
+    serverModule.router.getAuthSuccessGoogle);
+
+  app.get('/auth/facebook',
+    passport.authenticate('facebook'));
+
+  app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login-fail' }),
+    serverModule.router.getAuthSuccessFacebook);
 
   app.post('/sync-uid',
     require('connect-ensure-login').ensureLoggedIn(),
