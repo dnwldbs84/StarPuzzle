@@ -47,7 +47,7 @@ exports.findOrMergingGoogle = function(userID, profile, cb, onDuplicate) {
   process.nextTick(function() {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
-        if (result.googleId || result.facebookId)) {
+        if (result.googleId || result.facebookId) {
           console.log('on find google(merging)');
           cb(null, result);
         } else {
@@ -100,7 +100,7 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
   process.nextTick(function() {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
-        if (result.googleId || result.facebookId)) {
+        if (result.googleId || result.facebookId) {
           console.log('on find facebook(merging)');
           cb(null, result);
         } else {
