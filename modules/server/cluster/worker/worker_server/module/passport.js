@@ -1,6 +1,7 @@
 var Strategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 exports.localStrategy = function(db) {
   return new Strategy(
@@ -20,10 +21,7 @@ exports.googleStrategy = function(db) {
       callbackURL: "https://star-puzzle.io/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
-      process.nextTick(function() {
-        console.log('google strategy');
-        return cb(null, profile);
-      });
+      return cb(null, profile);
       // db.user.findOrCreateGoogle(profile, function(err, user) {
       //   return cb(err, user);
       // });
@@ -32,15 +30,23 @@ exports.googleStrategy = function(db) {
 }
 exports.facebookStrategy = function(db) {
   return new FacebookStrategy({
-      clientID: 2239616269617512,
+      clientID: '2239616269617512',
       clientSecret: '7320c99eeeb310d4eb5c6316a61d61a6',
       callbackURL: "https://star-puzzle.io/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
-      process.nextTick(function() {
-        console.log('facebook strategy');
-        return cb(null, profile);
-      });
+      return cb(null, profile);
+    }
+  );
+}
+exports.twitterStrategy = function(db) {
+  return new TwitterStrategy({
+      consumerKey: '1KeE23f3QP24pjrBwNnpilXNz',
+      consumerSecret: '2Nj76zn4rHn60Nv3eLb4KDJSb4cIynk0vQpjmqqq51INGom13a',
+      callbackURL: "https://star-puzzle.io/auth/twitter/callback"
+    },
+    function(token, tokenSecret, profile, cb) {
+      return cb(null, profile);
     }
   );
 }

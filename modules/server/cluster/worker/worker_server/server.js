@@ -160,6 +160,12 @@ function initRouter() {
     passport.authenticate('facebook', { failureRedirect: '/login-fail' }),
     serverModule.router.getAuthSuccessFacebook);
 
+  app.get('/auth/twitter',
+    passport.authenticate('twitter'));
+  app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', { failureRedirect: '/login-fail' }),
+    serverModule.router.getAuthSuccessTwitter);
+  
   app.post('/sync-uid',
     require('connect-ensure-login').ensureLoggedIn(),
     (req, res) => {

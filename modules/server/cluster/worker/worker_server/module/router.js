@@ -67,10 +67,8 @@ exports.getAuthSuccessGoogle = function(req, res) {
   // console.log(req.session.userID);
   if (req.user) {
     if (req.session.userID) {
-      console.log('merging');
       db.user.findOrMergingGoogle(req.session.userID, req.user, onComplete, onDuplicate);
     } else {
-      console.log('create');
       db.user.findOrCreateGoogle(req.user, onComplete);
     }
   }
@@ -80,9 +78,6 @@ exports.getAuthSuccessGoogle = function(req, res) {
       req.session.userID = result.id;
       req.session.passport.user = result.id;
       req.user = result;
-
-      console.log('on complete google');
-
       res.redirect('/');
     }
   }
@@ -98,10 +93,8 @@ exports.getAuthSuccessFacebook = function(req, res) {
   console.log('getAuthSuccess facebook');
   if (req.user) {
     if (req.session.userID) {
-      console.log('merging');
       db.user.findOrMergingFacebook(req.session.userID, req.user, onComplete, onDuplicate);
     } else {
-      console.log('create');
       db.user.findOrCreateFacebook(req.user, onComplete);
     }
   }
@@ -111,13 +104,36 @@ exports.getAuthSuccessFacebook = function(req, res) {
       req.session.userID = result.id;
       req.session.passport.user = result.id;
       req.user = result;
-      console.log('on complete facebook');
       res.redirect('/');
     }
   }
   function onDuplicate(err, result) {
     req.session.passport.user = req.session.userID;
-    console.log('on duplicate facebook');
+    req.flash('info', 'duplicate');
+    if (err) { exports.getFailToLogin(req, res); }
+    else { res.redirect('/'); }
+  }
+}
+exports.getAuthSuccessTwitter = function(req, res) {
+  console.log('getAuthSuccess twitter');
+  if (req.user) {
+    if (req.session.userID) {
+      db.user.findOrMergingTwitter(req.session.userID, req.user, onComplete, onDuplicate);
+    } else {
+      db.user.findOrCreateTwitter(req.user, onComplete);
+    }
+  }
+  function onComplete(err, result) {
+    if (err || !result) { exports.getFailToLogin(req, res); }
+    else {
+      req.session.userID = result.id;
+      req.session.passport.user = result.id;
+      req.user = result;
+      res.redirect('/');
+    }
+  }
+  function onDuplicate(err, result) {
+    req.session.passport.user = req.session.userID;
     req.flash('info', 'duplicate');
     if (err) { exports.getFailToLogin(req, res); }
     else { res.redirect('/'); }

@@ -1,6 +1,8 @@
 var User = function(data) {
   this.id = data.id || 0;
   this.googleId = data.googleId || 0;
+  this.facebookId = data.facebookId || 0;
+  this.twitterId = data.twitterId || 0;
   this.displayName = data.displayName || '';
   this.joinDate = data.joinDate || new Date();
   this.lastConnDate = data.lastConnDate || new Date();

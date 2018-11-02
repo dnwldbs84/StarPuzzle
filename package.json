@@ -25,6 +25,7 @@
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "redis": "^2.8.0",
     "text-encoding": "^0.6.4",
     "ws": "^5.1.1"

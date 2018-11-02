@@ -47,7 +47,7 @@ exports.findOrMergingGoogle = function(userID, profile, cb, onDuplicate) {
   process.nextTick(function() {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
-        if (result.googleId || result.facebookId) {
+        if (result.googleId || result.facebookId || result.twitterId) {
           console.log('on find google(merging)');
           cb(null, result);
         } else {
@@ -100,7 +100,7 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
   process.nextTick(function() {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
-        if (result.googleId || result.facebookId) {
+        if (result.googleId || result.facebookId || result.twitterId) {
           console.log('on find facebook(merging)');
           cb(null, result);
         } else {
@@ -117,6 +117,59 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
                 });
             } else {
               console.log('on find facebook(merging, duplicate)');
+              onDuplicate(null, checkResult);
+            }
+          });
+        }
+      } else { cb(err); }
+    });
+  });
+}
+exports.findOrCreateTwitter = function(profile, cb) {
+  process.nextTick(function() {
+    // check already join
+    module.query.findData(conn, 'user', 'twitterId', profile.id, function(err, result) {
+      if (result) {
+        console.log('on find twitter');
+        console.log(result);
+        cb(err, result);
+      } else {
+        // create new user
+        var user = new model.UserModel({ displayName: profile.screen_name, twitterId: profile.id });
+        // var user = {
+        //   googleId: profile.id,
+        //   displayName: profile.displayName,
+        // }
+        module.query.insertData(conn, 'user', user, function(insertResult) {
+          module.query.findData(conn, 'user', 'id', insertResult.insertId, function(err, findResult) {
+            cb(err, findResult);
+          });
+        });
+      }
+    });
+  });
+}
+exports.findOrMergingTwitter = function(userID, profile, cb, onDuplicate) {
+  process.nextTick(function() {
+    module.query.findData(conn, 'user', 'id', userID, function(err, result) {
+      if (result) {
+        if (result.googleId || result.facebookId || result.twitterId) {
+          console.log('on find twitter(merging)');
+          cb(null, result);
+        } else {
+          // check already registed;
+          module.query.findData(conn, 'user', 'twitterId', profile.id, function(err, checkResult) {
+            if (!checkResult) {
+              var query = 'UPDATE user SET twitterId=' + profile.id + ', displayName="' + profile.screen_name + '" WHERE id=' + userID;
+              module.query.queryDirectly(conn, query, function(updateResult) {
+                // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
+                  console.log('on merging twitter');
+                  module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
+                    cb(err, findResult);
+                  });
+                });
+            } else {
+              console.log('on find twitter(merging, duplicate)');
               onDuplicate(null, checkResult);
             }
           });
