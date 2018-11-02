@@ -61,7 +61,7 @@ function initServerSetting() {
     secret: '!!@@Secret Cat@@!!',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000, secure: true }
+    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
   }));
 
   app.use(function(req, res, next) {
@@ -149,14 +149,12 @@ function initRouter() {
   // passport route
   app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] }));
-
   app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login-fail' }),
     serverModule.router.getAuthSuccessGoogle);
 
   app.get('/auth/facebook',
     passport.authenticate('facebook'));
-
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login-fail' }),
     serverModule.router.getAuthSuccessFacebook);
