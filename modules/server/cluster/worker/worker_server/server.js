@@ -35,6 +35,7 @@ function initServerSetting() {
   passport.use(serverModule.passport.localStrategy(db));
   passport.use(serverModule.passport.googleStrategy(db));
   passport.use(serverModule.passport.facebookStrategy(db));
+  passport.use(serverModule.passport.twitterStrategy(db));
   passport.serializeUser(serverModule.passport.serialize());
   passport.deserializeUser(serverModule.passport.deserialize(db));
 
@@ -165,7 +166,7 @@ function initRouter() {
   app.get('/auth/twitter/callback',
     passport.authenticate('twitter', { failureRedirect: '/login-fail' }),
     serverModule.router.getAuthSuccessTwitter);
-  
+
   app.post('/sync-uid',
     require('connect-ensure-login').ensureLoggedIn(),
     (req, res) => {
