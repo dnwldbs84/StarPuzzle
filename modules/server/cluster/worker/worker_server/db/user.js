@@ -126,6 +126,7 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
   });
 }
 exports.findOrCreateTwitter = function(profile, cb) {
+  console.log(profile);
   process.nextTick(function() {
     // check already join
     module.query.findData(conn, 'user', 'twitterId', profile.id, function(err, result) {
