@@ -30,8 +30,8 @@ exports.googleStrategy = function(db) {
 }
 exports.facebookStrategy = function(db) {
   return new FacebookStrategy({
-      clientID: '2239616269617512',
-      clientSecret: '7320c99eeeb310d4eb5c6316a61d61a6',
+      clientID: 260071151360692,
+      clientSecret: 'e313415021f00fec987c785e5c8088b2',
       callbackURL: "https://star-puzzle.io/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
