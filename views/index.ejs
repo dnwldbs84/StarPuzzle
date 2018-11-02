@@ -64,6 +64,12 @@
       var user = null;
     <% } %>
     </script>
+    <!-- delete facebook hash -->
+    <script type="text/javascript">
+      if (window.location.hash && window.location.hash == '#_=_') {
+          window.location.hash = '';
+      }
+  </script>
   </head>
   <body>
     <div id="game">
