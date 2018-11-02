@@ -126,7 +126,6 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
   });
 }
 exports.findOrCreateTwitter = function(profile, cb) {
-  console.log(profile);
   process.nextTick(function() {
     // check already join
     module.query.findData(conn, 'user', 'twitterId', profile.id, function(err, result) {
@@ -136,7 +135,7 @@ exports.findOrCreateTwitter = function(profile, cb) {
         cb(err, result);
       } else {
         // create new user
-        var user = new model.UserModel({ displayName: profile.screen_name, twitterId: profile.id });
+        var user = new model.UserModel({ displayName: profile.displayName, twitterId: profile.id });
         // var user = {
         //   googleId: profile.id,
         //   displayName: profile.displayName,
@@ -161,7 +160,7 @@ exports.findOrMergingTwitter = function(userID, profile, cb, onDuplicate) {
           // check already registed;
           module.query.findData(conn, 'user', 'twitterId', profile.id, function(err, checkResult) {
             if (!checkResult) {
-              var query = 'UPDATE user SET twitterId=' + profile.id + ', displayName="' + profile.screen_name + '" WHERE id=' + userID;
+              var query = 'UPDATE user SET twitterId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
               module.query.queryDirectly(conn, query, function(updateResult) {
                 // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
                   console.log('on merging twitter');
