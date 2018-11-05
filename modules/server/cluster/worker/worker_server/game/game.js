@@ -93,8 +93,8 @@ Game.prototype = {
         this.oppSkillScore += score;
       }
     }
-    console.log('addScore');
-    console.log(this.score + ' : ' + this.hostSkillScore + ' : ' + this.oppSkillScore);
+    // console.log('addScore');
+    // console.log(this.score + ' : ' + this.hostSkillScore + ' : ' + this.oppSkillScore);
     if (gameLevelData[this.level].nextLevelScore && this.score > gameLevelData[this.level].nextLevelScore) {
       // level up
       this.level++;

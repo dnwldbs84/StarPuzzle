@@ -20,7 +20,6 @@ exports.checkName = function(str, min, max) {
   // str.replace(/[^\w ]/, '')
 
   var str = str.replace(/[^a-zA-Z0-9가-힣\s]/g, '').substring(0, max);
-  console.log(str);
   if (str.length < min) { return false; }
   else { return str; }
 }

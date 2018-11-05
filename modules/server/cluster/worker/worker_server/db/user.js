@@ -24,8 +24,8 @@ exports.findOrCreateGoogle = function(profile, cb) {
     // check already join
     module.query.findData(conn, 'user', 'googleId', profile.id, function(err, result) {
       if (result) {
-        console.log('on find google');
-        console.log(result);
+        // console.log('on find google');
+        // console.log(result);
         cb(err, result);
       } else {
         // create new user
@@ -48,7 +48,7 @@ exports.findOrMergingGoogle = function(userID, profile, cb, onDuplicate) {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
         if (result.googleId || result.facebookId || result.twitterId) {
-          console.log('on find google(merging)');
+          // console.log('on find google(merging)');
           cb(null, result);
         } else {
           // check already registed;
@@ -57,13 +57,13 @@ exports.findOrMergingGoogle = function(userID, profile, cb, onDuplicate) {
               var query = 'UPDATE user SET googleId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
               module.query.queryDirectly(conn, query, function(updateResult) {
                 // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
-                  console.log('on merging google');
+                  // console.log('on merging google');
                   module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
                     cb(err, findResult);
                   });
                 });
             } else {
-              console.log('on find google(merging, duplicate)');
+              // console.log('on find google(merging, duplicate)');
               onDuplicate(null, checkResult);
             }
           });
@@ -77,8 +77,8 @@ exports.findOrCreateFacebook = function(profile, cb) {
     // check already join
     module.query.findData(conn, 'user', 'facebookId', profile.id, function(err, result) {
       if (result) {
-        console.log('on find facebook');
-        console.log(result);
+        // console.log('on find facebook');
+        // console.log(result);
         cb(err, result);
       } else {
         // create new user
@@ -101,7 +101,7 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
         if (result.googleId || result.facebookId || result.twitterId) {
-          console.log('on find facebook(merging)');
+          // console.log('on find facebook(merging)');
           cb(null, result);
         } else {
           // check already registed;
@@ -110,13 +110,13 @@ exports.findOrMergingFacebook = function(userID, profile, cb, onDuplicate) {
               var query = 'UPDATE user SET facebookId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
               module.query.queryDirectly(conn, query, function(updateResult) {
                 // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
-                  console.log('on merging facebook');
+                  // console.log('on merging facebook');
                   module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
                     cb(err, findResult);
                   });
                 });
             } else {
-              console.log('on find facebook(merging, duplicate)');
+              // console.log('on find facebook(merging, duplicate)');
               onDuplicate(null, checkResult);
             }
           });
@@ -130,8 +130,8 @@ exports.findOrCreateTwitter = function(profile, cb) {
     // check already join
     module.query.findData(conn, 'user', 'twitterId', profile.id, function(err, result) {
       if (result) {
-        console.log('on find twitter');
-        console.log(result);
+        // console.log('on find twitter');
+        // console.log(result);
         cb(err, result);
       } else {
         // create new user
@@ -154,7 +154,7 @@ exports.findOrMergingTwitter = function(userID, profile, cb, onDuplicate) {
     module.query.findData(conn, 'user', 'id', userID, function(err, result) {
       if (result) {
         if (result.googleId || result.facebookId || result.twitterId) {
-          console.log('on find twitter(merging)');
+          // console.log('on find twitter(merging)');
           cb(null, result);
         } else {
           // check already registed;
@@ -163,13 +163,13 @@ exports.findOrMergingTwitter = function(userID, profile, cb, onDuplicate) {
               var query = 'UPDATE user SET twitterId=' + profile.id + ', displayName="' + profile.displayName + '" WHERE id=' + userID;
               module.query.queryDirectly(conn, query, function(updateResult) {
                 // module.query.updateMultiData(conn, 'user', userID, 'googleId', profile.id, 'displayName', profile.displayName, function (updateResult) {
-                  console.log('on merging twitter');
+                  // console.log('on merging twitter');
                   module.query.findData(conn, 'user', 'id', userID, function(err, findResult) {
                     cb(err, findResult);
                   });
                 });
             } else {
-              console.log('on find twitter(merging, duplicate)');
+              // console.log('on find twitter(merging, duplicate)');
               onDuplicate(null, checkResult);
             }
           });
@@ -222,16 +222,16 @@ exports.findUserData = function(id, col, cb) {
 exports.updateUserData = function(id, col, colData) {
   process.nextTick(function() {
     module.query.updateData(conn, 'user', id, col, colData, function(result) {
-      console.log('updateData');
-      console.log(result);
+      // console.log('updateData');
+      // console.log(result);
     });
   });
 }
 exports.updateUserMultiData = function(id, col1, colData1, col2, colData2) {
   process.nextTick(function() {
     module.query.updateMultiData(conn, 'user', id, col1, colData1, col2, colData2, function(result) {
-      console.log('updateMultiData');
-      console.log(result);
+      // console.log('updateMultiData');
+      // console.log(result);
     });
   });
 }
@@ -246,8 +246,8 @@ exports.userJoin = function(id) {
           if (exports.dbDateToStr(result.lastConnDate) !== now) {
             process.nextTick(function() {
               module.query.updateMultiData(conn, 'user', id, 'lastConnDate', now, 'reConnCount', reConnCount, function(result) {
-                console.log('update connect data');
-                console.log(result);
+                // console.log('update connect data');
+                // console.log(result);
               });
             });
           }
@@ -255,8 +255,8 @@ exports.userJoin = function(id) {
           // set joinDate and lastConnDate
           process.nextTick(function() {
             module.query.updateMultiData(conn, 'user', id, 'joinDate', now, 'lastConnDate', now, function(result) {
-              console.log('set join data');
-              console.log(result);
+              // console.log('set join data');
+              // console.log(result);
             });
           });
         }
@@ -277,8 +277,8 @@ exports.changeName = function(id, newName, cb) {
 exports.deleteUser = function(user) {
   process.nextTick(function() {
     module.query.deleteUser(conn, 'user', 'id', user.id, function(result) {
-      console.log('deleteUser')
-      console.log(result);
+      // console.log('deleteUser')
+      // console.log(result);
     });
   });
 }
@@ -293,17 +293,17 @@ exports.updateSoloGameScore = function(id, score) {
             ', soloBestScore = ' + score + ', soloTodayDate = ' + now +
             ', soloTodayBestScore = ' + score + ' WHERE id = ' + id;
           module.query.queryDirectly(conn, query, function(result) {
-            console.log('soloBestScore update');
+            // console.log('soloBestScore update');
           });
         } else if (exports.dbDateToStr(result.soloTodayDate) !== now) {
           // update today data
           module.query.updateMultiData(conn, 'user', id, 'soloTodayDate', now, 'soloTodayBestScore', score, function(result) {
-            console.log('soloTodayDate update');
+            // console.log('soloTodayDate update');
           });
         } else if (result.soloTodayBestScore < score) {
           // update today score only
           module.query.updateData(conn, 'user', id, 'soloTodayBestScore', score, function(result) {
-            console.log('soloTodayBestScore update');
+            // console.log('soloTodayBestScore update');
           });
         }
       }
@@ -318,7 +318,7 @@ exports.updatePVCClearDiff = function(id, diff) {
         if (diff > beforeDiff) {
           // update
           module.query.updateData(conn, 'user', id, 'pvcClearDiff', diff, function(result) {
-            console.log('pvcClearDiff update');
+            // console.log('pvcClearDiff update');
           });
         }
       }
@@ -340,7 +340,7 @@ exports.updateUserPVPGameData = function(user, isWin, newRating) {
     var query = 'UPDATE user SET ' + updateCol + ' = ' + updateColVal +
                 ', rating = ' + newRating + ', pvpLastGameDate = ' + now + ' WHERE id = ' + user.id;
     module.query.queryDirectly(conn, query, function(result) {
-      console.log('pvpLastGameDate update');
+      // console.log('pvpLastGameDate update');
     });
   } else {
     exports.updateUserMultiData(user.id, updateCol, updateColVal, 'rating', newRating);

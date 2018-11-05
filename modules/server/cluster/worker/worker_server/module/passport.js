@@ -52,15 +52,15 @@ exports.twitterStrategy = function(db) {
 }
 exports.serialize = function() {
   return function(user, cb) {
-    console.log('serialize');
+    // console.log('serialize');
     cb(null, user.id);
   }
 }
 
 exports.deserialize = function(db) {
   return function(id, cb) {
-    console.log('deserialize');
-    console.log(id);
+    // console.log('deserialize');
+    // console.log(id);
     db.user.findById(id, function(err, user) {
       if (err) return cb(err);
       cb(null, user);

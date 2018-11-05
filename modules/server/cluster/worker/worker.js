@@ -43,7 +43,7 @@ exports.initWorker = function(port) {
     //   publicModule.config.MESSAGE_DATA_TYPE.INTEGER,
     //   publicModule.config.MESSAGE_TYPE.SYNC_UID, process.pid + '' + client.sid));
 
-    console.log('on client join socket id ' + client.sid);
+    // console.log('on client join socket id ' + client.sid);
   }
   workerServer.socket.onClientExit = function(client) {
     if (client.isOnPlayGame) {
@@ -77,10 +77,6 @@ exports.initWorker = function(port) {
         if (data) {
           var arrayToString = data.toString();
           var sendData = 'sendData,' + oppSid + ',' + dataType + ',' + type + ',' + arrayToString;
-          if (type == publicModule.config.MESSAGE_TYPE.USE_SKILL ||
-              type == publicModule.config.MESSAGE_TYPE.USE_SKILL2) {
-                console.log(sendData);
-          }
         } else {
           sendData = 'sendData,' + oppSid + ',' + dataType + ',' + type;
         }
@@ -380,7 +376,6 @@ function redisMessageHandler(channel, strData) {
             sendPacket(clients[sid], publicModule.encoder.encodePacketWithType(
               publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
               publicModule.config.MESSAGE_TYPE.SUCCESS_SYNC_UID));
-            console.log('success sync');
           }
           break;
         case 'sendData':
@@ -617,7 +612,6 @@ function socketMessageHandler(packet) {
         this.updateTime();
         break;
       case publicModule.config.MESSAGE_TYPE.EXPLODE_GEMS:
-        if (!this.isGameHost) { console.log('explode gem'); }
         var dataAsArray = publicModule.encoder.decodePacketData(packet);
         this.commuWithOpp(data.dataType, data.type, dataAsArray);
         if (this.oppPid) {
@@ -777,12 +771,12 @@ function socketMessageHandler(packet) {
           publicModule.config.MESSAGE_TYPE.REQ_USERS_ON_LOBBY,
           data));
 
-        // delete this
-        var temp = publicModule.encoder.encodePacketWithType(
-          publicModule.config.MESSAGE_DATA_TYPE.STRING,
-          publicModule.config.MESSAGE_TYPE.REQ_USERS_ON_LOBBY,
-          data);
-        console.log('userOnLobbyList packet length : ' + (temp.length));
+        // // delete this
+        // var temp = publicModule.encoder.encodePacketWithType(
+        //   publicModule.config.MESSAGE_DATA_TYPE.STRING,
+        //   publicModule.config.MESSAGE_TYPE.REQ_USERS_ON_LOBBY,
+        //   data);
+        // console.log('userOnLobbyList packet length : ' + (temp.length));
 
         break;
       case publicModule.config.MESSAGE_TYPE.CHAT_ON_LOBBY:

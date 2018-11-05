@@ -65,6 +65,9 @@ var RESTRICT_FREE_CPU = 0.15, RESTRICT_FREE_MEMORY = 0.15;
 var restrictGame = false;
 
 exports.initMaster = function(cluster) {
+  var date = new Date();
+  console.log('Master start at ' + date);
+
   setInterval(() => {
     // os.cpuUsage(function(v){
     //   console.log( 'CPU Usage (%): ' + v );
@@ -131,7 +134,8 @@ exports.initMaster = function(cluster) {
       }
     }
     newWorker.send({ type: 'resetLobbyUsers', users: userOnLobbyList });
-    // re fork cluster && reset userList
+    var date = new Date();
+    console.log('Worker restart at ' + date);
   });
 
   // find match every one sec;

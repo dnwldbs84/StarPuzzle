@@ -52,6 +52,8 @@ function initServerSetting() {
   var redisClient = require('redis').createClient(redisUrl);
 
   redisClient.on('error', function(err) {
+    var date = new Date();
+    console.log('redis error at ' + date);
     console.log(err);
   });
 
@@ -81,6 +83,8 @@ function initServerSetting() {
 
   //error handle
   app.use(function(error, req, res, next) {
+    var date = new Date();
+    console.log('app middleware error : ' + date);
     console.log(error.stack);
     // delete cookie
     req.session.destroy(function (err) {

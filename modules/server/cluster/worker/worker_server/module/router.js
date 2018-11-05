@@ -10,8 +10,8 @@ exports.getMain = function(req, res) {
   }
 
   if (req.user) {
-    console.log('getMain');
-    console.log(req.session.userID);
+    // console.log('getMain');
+    // console.log(req.session.userID);
     if (!req.session.userID) { req.session.userID = req.user.id; }
     exports.onUserJoinGame(req.user.id);
   }
@@ -62,7 +62,7 @@ exports.postProfile = function(req, res) {
   res.send({ user: setClientUser(req.user) });
 }
 exports.getAuthSuccessGoogle = function(req, res) {
-  console.log('getAuthSuccess google');
+  // console.log('getAuthSuccess google');
   // console.log(req.user);
   // console.log(req.session.userID);
   if (req.user) {
@@ -83,14 +83,14 @@ exports.getAuthSuccessGoogle = function(req, res) {
   }
   function onDuplicate(err, result) {
     req.session.passport.user = req.session.userID;
-    console.log('on duplicate google');
+    // console.log('on duplicate google');
     req.flash('info', 'duplicate');
     if (err) { exports.getFailToLogin(req, res); }
     else { res.redirect('/'); }
   }
 }
 exports.getAuthSuccessFacebook = function(req, res) {
-  console.log('getAuthSuccess facebook');
+  // console.log('getAuthSuccess facebook');
   if (req.user) {
     if (req.session.userID) {
       db.user.findOrMergingFacebook(req.session.userID, req.user, onComplete, onDuplicate);
@@ -115,7 +115,7 @@ exports.getAuthSuccessFacebook = function(req, res) {
   }
 }
 exports.getAuthSuccessTwitter = function(req, res) {
-  console.log('getAuthSuccess twitter');
+  // console.log('getAuthSuccess twitter');
   if (req.user) {
     if (req.session.userID) {
       db.user.findOrMergingTwitter(req.session.userID, req.user, onComplete, onDuplicate);

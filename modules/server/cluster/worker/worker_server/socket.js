@@ -19,7 +19,7 @@ exports.initSocket = function(server, cb) {
   var wss = new WebSocket.Server({ server: server, perMessageDeflate: false });
 
   wss.on('connection', function(client) {
-    console.log('client connect at ' + process.pid);
+    // console.log('client connect at ' + process.pid);
     client.curGame = null;
 
     client.sid = generateRandomUniqueID();
@@ -65,7 +65,8 @@ exports.initSocket = function(server, cb) {
     });
     client.on('close', function(code, reason) {
       if (reason) {
-        console.log('on socket close');
+        var date = new Date();
+        console.log('Unexpected socket close at ' + date);
         console.log(code);
         console.log(reason);
       }
@@ -99,7 +100,6 @@ exports.initSocket = function(server, cb) {
       client.lastChatTime = Date.now();
     }
     client.readyForGame = function(skill) {
-      console.log('i am ready');
       if (!client.checkIsStartGameInterval) {
         client.startCheckGameStartTimer();
       }
@@ -111,7 +111,6 @@ exports.initSocket = function(server, cb) {
       }
     }
     client.onReadyOpp = function(skill) {
-      console.log('opp is ready');
       if (!client.checkIsStartGameInterval) {
         client.startCheckGameStartTimer();
       }
