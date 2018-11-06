@@ -87,15 +87,19 @@ function initServerSetting() {
     console.log('app middleware error : ' + date);
     console.log(error.stack);
     // delete cookie
-    req.session.destroy(function (err) {
-      res.clearCookie('connect.sid');
-      res.redirect('/');
-    });
+    // req.session.destroy(function (err) {
+    //   if (!res.headersSent) {
+    //     res.clearCookie('connect.sid');
+    //     res.redirect('/');
+    //   }
+    // });
+    if (res.headersSent) {
+      return next(err);
+    }
     res.status(500).send('Something broken!');
     // res.json({ message: error.message });
   });
 }
-
 function initRouter() {
   app.get('/', function(req, res) {
     if (!isServerDown) {

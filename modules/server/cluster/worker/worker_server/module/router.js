@@ -44,8 +44,10 @@ exports.postChangeName = function(req, res) {
 
 exports.postLogout = function(req, res) {
   req.session.destroy(function (err) {
-    res.clearCookie('connect.sid');
-    res.redirect('/');
+    if (!res.headersSent) {
+      res.clearCookie('connect.sid');
+      res.redirect('/');
+    }
   });
 }
 
@@ -53,8 +55,10 @@ exports.postLeaveGame = function(req, res) {
   req.session.destroy(function (err) {
     // var user = req.user;
     exports.onUserLeaveGame(req.user);
-    res.clearCookie('connect.sid');
-    res.redirect('/');
+    if (!res.headersSent) {
+      res.clearCookie('connect.sid');
+      res.redirect('/');
+    }
   });
 }
 
