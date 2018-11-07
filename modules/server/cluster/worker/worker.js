@@ -341,9 +341,11 @@ function processMessageHandler(msg) {
             }
             break;
           case 'serverDown':
+            isServerDown = true;
             workerServer.server.serverDown();
             break;
           case 'serverDownCancel':
+            isServerDown = false;
             workerServer.server.cancelServerDown();
             break;
         }
@@ -827,11 +829,9 @@ function socketMessageHandler(packet) {
               process.send({ type: 'instruction', subType: 'informToAll', msg: msg });
               break;
             case 'Server_Down':
-              isServerDown = true;
               process.send({ type: 'instruction', subType: 'serverDown' });
               break;
             case 'Server_Down_Cancel':
-              isServerDown = false;
               process.send({ type: 'instruction', subType: 'serverDownCancel' });
               break;
           }
