@@ -147,8 +147,8 @@ function clusterMessageHandler(worker, msg) {
   switch (msg.type) {
     case 'clientJoin':
       userList[worker.process.pid].push(msg.sid);
-      console.log('clientJoin');
-      console.log(userList);
+      // console.log('clientJoin');
+      // console.log(userList);
       break;
     case 'clientExit':
       var index = userList[worker.process.pid].indexOf(msg.sid);
@@ -162,8 +162,8 @@ function clusterMessageHandler(worker, msg) {
         }
       }
       removeOnLobby(msg.uid);
-      console.log('clientExit');
-      console.log(userList);
+      // console.log('clientExit');
+      // console.log(userList);
       break;
     case 'findMatch':
       // var index = userOnMatchList[worker.process.pid].indexOf(msg.id);
@@ -247,9 +247,9 @@ function removeOnLobby(uid) {
   for (var i=0; i<userOnLobbyList.length; i++) {
     if (userOnLobbyList[i].uid == uid) {
       userOnLobbyList.splice(i, 1);
-      console.log('exit lobby');
-      console.log(uid);
-      console.log(userOnLobbyList);
+      // console.log('exit lobby');
+      // console.log(uid);
+      // console.log(userOnLobbyList);
       for (var index in workers) {
         workers[index].send({ type: 'exitLobby', uid: uid });
       }

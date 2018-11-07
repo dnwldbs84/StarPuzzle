@@ -5,6 +5,7 @@ var userDB = require('./worker_server/db').user;
 var publicModule = require('../../../public');
 var pub = null, clients = {};
 var userOnLobbyList = [];
+var isServerDown = false;
 // var os 	= require('os-utils');
 
 var restrictGame = false;
@@ -558,6 +559,10 @@ function socketMessageHandler(packet) {
           sendPacket(this, publicModule.encoder.encodePacketWithType(
             publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
             publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [1]));
+        } else if (isServerDown) {
+          sendPacket(this, publicModule.encoder.encodePacketWithType(
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
         } else if (!this.isOnMatching && !this.isOnPlayGame) {
           this.isOnMatching = true;
           var self = this;
@@ -784,6 +789,10 @@ function socketMessageHandler(packet) {
           sendPacket(this, publicModule.encoder.encodePacketWithType(
             publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
             publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [2]));
+        } else if (isServerDown) {
+          sendPacket(this, publicModule.encoder.encodePacketWithType(
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
         } else {
           this.checkChatTime();
           if (!this.blockChatTimeout) {
@@ -818,9 +827,11 @@ function socketMessageHandler(packet) {
               process.send({ type: 'instruction', subType: 'informToAll', msg: msg });
               break;
             case 'Server_Down':
+              isServerDown = true;
               process.send({ type: 'instruction', subType: 'serverDown' });
               break;
             case 'Server_Down_Cancel':
+              isServerDown = false;
               process.send({ type: 'instruction', subType: 'serverDownCancel' });
               break;
           }
