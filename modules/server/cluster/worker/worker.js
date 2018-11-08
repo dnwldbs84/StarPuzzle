@@ -718,7 +718,11 @@ function socketMessageHandler(packet) {
         }
         break;
       case publicModule.config.MESSAGE_TYPE.PLAY_SOLO:
-        if (this.uid) {
+        if (isServerDown) {
+          sendPacket(this, publicModule.encoder.encodePacketWithType(
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
+        } else if (this.uid) {
           var uid = this.uid;
           exitLobby(uid);
           userDB.findUserData(uid, 'playSoloCount', (err, result) => {
@@ -727,7 +731,11 @@ function socketMessageHandler(packet) {
         }
         break;
       case publicModule.config.MESSAGE_TYPE.PLAY_PVC:
-        if (this.uid) {
+        if (isServerDown) {
+          sendPacket(this, publicModule.encoder.encodePacketWithType(
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
+        } else if (this.uid) {
           var uid = this.uid;
           exitLobby(uid);
           userDB.findUserData(uid, 'playPvcCount', (err, result) => {
