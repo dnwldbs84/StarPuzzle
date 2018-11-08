@@ -1,3 +1,4 @@
+var fs = require('fs');
 var publicFunctions = require('../../../../../public').publicFunctions;
 
 exports.onUserJoinGame = new Function();
@@ -142,6 +143,12 @@ exports.getAuthSuccessTwitter = function(req, res) {
     if (err) { exports.getFailToLogin(req, res); }
     else { res.redirect('/'); }
   }
+}
+exports.getAdsTxt = function(req, res) {
+  fs.readFile('views/text/ads.txt', 'utf8', function(err, data) {
+    res.writeHead(200, { 'Content-Type': 'text/text' });
+    res.end(data);
+  });
 }
 exports.getTermsAndConditions = function(req, res) {
   res.render('termsAndConditions');

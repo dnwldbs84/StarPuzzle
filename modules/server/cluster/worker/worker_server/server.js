@@ -173,6 +173,8 @@ function initRouter() {
     passport.authenticate('twitter', { failureRedirect: '/login-fail' }),
     serverModule.router.getAuthSuccessTwitter);
 
+  app.get('/ads.txt', serverModule.router.getAdsTxt);
+  
   app.post('/sync-uid',
     require('connect-ensure-login').ensureLoggedIn(),
     (req, res) => {

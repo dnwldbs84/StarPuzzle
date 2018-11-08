@@ -9,7 +9,6 @@
     <meta name="author" content="WooksDev">
     <meta name="keywords" content="game,games,online,io,puzzle,star,star puzzle, star-puzzle">
     <meta name="description" content="Competition Puzzle game, Star Puzzle!">
-    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <meta property="og:type" content="game">
     <meta property="og:title" content="Star Puzzle.io">
     <meta property="og:description" content="Competition Puzzle game, Star Puzzle!">
@@ -26,6 +25,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="/css/main.css"> -->
     <link rel="stylesheet" type="text/css" href="/build/css/main.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <meta name="viewport" content="minimal-ui, user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112883634-2"></script>
     <!-- <script>
       window.dataLayer = window.dataLayer || [];
@@ -44,6 +44,30 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
       })();
     </script>
+    <!-- ads -->
+    <script async src="//api.adinplay.com/libs/aiptag/pub/WOF/star-puzzle.io/tag.min.js"></script>
+    <script>
+    var aiptag = aiptag || {}, aipEventHandler = new Function();
+    aiptag.cmd = aiptag.cmd || [];
+    aiptag.cmd.display = aiptag.cmd.display || [];	aiptag.cmd.player = aiptag.cmd.player || [];
+
+    aiptag.consented = false;
+
+    aiptag.cmd.player.push(function() {
+      adplayer = new aipPlayer({
+        AD_WIDTH: 960,
+        AD_HEIGHT: 540,
+        AD_FULLSCREEN: false,
+        AD_CENTERPLAYER: false,
+        LOADING_TEXT: 'loading advertisement',
+        PREROLL_ELEM: function(){return document.getElementById('preroll')},
+        AIP_COMPLETE: function ()  {
+          aipEventHandler();
+        },
+        AIP_REMOVE: function ()  {}
+      });
+    });
+    </script>
     <!-- cookie bot -->
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9c8c1023-4074-4024-9043-c49d72af2d12" type="text/javascript" async></script>
     <script type="text/javascript">
@@ -54,6 +78,9 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-112883634-2');
+
+        // set ad consent true;
+        aiptag.consented = true;
       }
     </script>
     <script>
@@ -98,7 +125,15 @@
         <a class="footer-button" href="http://iogames.space/" target="_blank" class="moreIOBtn">More IO Games</a>
       </div>
     </div>
-    <div id="ad-container" class="disable"></div>
+    <div id="ad-container" class="disable">
+      <div id='star-puzzle-io_300x250'>
+      <script type='text/javascript'>
+        aiptag.cmd.display.push(function() { aipDisplayTag.display('star-puzzle-io_300x250'); });
+      </script>
+    </div>
+    <div id="preroll"></div>
+    <button id="ad-refresh-display" class="disable" onclick="aiptag.cmd.display.push(function() { aipDisplayTag.display('star-puzzle-io_300x250'); });">Refresh Ad</button>
+    <button id="ad-play-video" class="disable" onclick="aiptag.cmd.player.push(function() { adplayer.startPreRoll(); });">Show Video Ad</button>
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script> -->
     <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.11.0"></script> <!-- minified version -->
     <!-- <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.11.0/build/phaser.js"></script> -->
