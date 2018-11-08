@@ -722,6 +722,10 @@ function socketMessageHandler(packet) {
           sendPacket(this, publicModule.encoder.encodePacketWithType(
             publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
             publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
+          if (this.uid) {
+            var uid = this.uid;
+            exitLobby(uid);
+          }
         } else if (this.uid) {
           var uid = this.uid;
           exitLobby(uid);
@@ -735,6 +739,10 @@ function socketMessageHandler(packet) {
           sendPacket(this, publicModule.encoder.encodePacketWithType(
             publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
             publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
+          if (this.uid) {
+            var uid = this.uid;
+            exitLobby(uid);
+          }
         } else if (this.uid) {
           var uid = this.uid;
           exitLobby(uid);
