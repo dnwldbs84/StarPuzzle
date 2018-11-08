@@ -786,7 +786,8 @@ function socketMessageHandler(packet) {
         break;
       case publicModule.config.MESSAGE_TYPE.REQ_USERS_ON_LOBBY:
         var data = userOnLobbyList.length;
-        for (var i=0; i<userOnLobbyList.length; i++) {
+        var length = userOnLobbyList.length > 50 ? 50 : userOnLobbyList.length;
+        for (var i=0; i<length; i++) {
           data += ',' + userOnLobbyList[i].uid + ',' + userOnLobbyList[i].name;
         }
         sendPacket(this, publicModule.encoder.encodePacketWithType(
