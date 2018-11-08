@@ -783,6 +783,7 @@ function socketMessageHandler(packet) {
         if (uid && name) {
           process.send({ type: 'joinLobby', sid: sid, uid: uid, name: name });
         }
+        this.initGameVars();
         break;
       case publicModule.config.MESSAGE_TYPE.REQ_USERS_ON_LOBBY:
         var data = userOnLobbyList.length;

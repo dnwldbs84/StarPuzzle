@@ -124,7 +124,7 @@ exports.initSocket = function(server, cb) {
       if (!client.checkIsStartGameInterval) {
         // game already canceled
       } else {
-        client.curGame = game.makeGameInstance(client.pid, client.sid, client.oppPid, client.oppSid);
+        client.curGame = game.makeGameInstance();
         client.curGame.onNeedInformGameData = function(dataType, type, data) {
           exports.onNeedCommu(client.oppSid, client.oppPid,
             dataType, type, data, client.sid);
@@ -317,6 +317,10 @@ exports.initSocket = function(server, cb) {
         exports.onNeedDbUpdate('gameOver', client, isWin);
       }
       client.isOnPlayGame = false;
+      clearInterval(client.lastUpdateInteval);
+      client.lastUpdateInteval = false;
+      clearInterval(client.checkIsStartGameInterval);
+      client.checkIsStartGameInterval = false;
       // if (client.isGameHost && client.curGame && !client.curGame.isGameOver) {
       //   client.curGame.gameOver();
       //   if (isWin) {

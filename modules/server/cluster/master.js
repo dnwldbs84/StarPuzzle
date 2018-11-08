@@ -174,7 +174,8 @@ function clusterMessageHandler(worker, msg) {
       // }
       break;
     case 'cancelMatch':
-      for (var i=0; userOnMatchList.length; i++) {
+      // for (var i=0; i<userOnMatchList.length; i++) {
+      for (var i=userOnMatchList.length - 1; i>=0; i--) {
         if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid &&
           !userOnMatchList[i].isMatch) {
           userOnMatchList.splice(i, 1);
