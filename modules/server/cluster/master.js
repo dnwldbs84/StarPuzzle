@@ -155,7 +155,7 @@ function clusterMessageHandler(worker, msg) {
       if (index >= 0) {
         userList[worker.process.pid].splice(index, 1);
       }
-      for (var i=0; i<userOnMatchList.length; i++) {
+      for (var i=userOnMatchList.length-1; i>=0; i--) {
         if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid) {
           userOnMatchList.splice(i, 1);
           break;
@@ -245,7 +245,7 @@ function findMatch() {
 }
 
 function removeOnLobby(uid) {
-  for (var i=0; i<userOnLobbyList.length; i++) {
+  for (var i=userOnLobbyList.length-1; i>=0; i--) {
     if (userOnLobbyList[i].uid == uid) {
       userOnLobbyList.splice(i, 1);
       // console.log('exit lobby');

@@ -304,7 +304,7 @@ function processMessageHandler(msg) {
         }
         break;
       case 'exitLobby':
-        for (var i=0; i<userOnLobbyList.length; i++) {
+        for (var i=userOnLobbyList.length-1; i>=0; i--) {
           if (userOnLobbyList[i].uid == msg.uid) {
             userOnLobbyList.splice(i, 1);
             for (var index in clients) {
