@@ -169,17 +169,17 @@ function clusterMessageHandler(worker, msg) {
       // var index = userOnMatchList[worker.process.pid].indexOf(msg.id);
       // if (index === -1) {
       // console.log('findMatch : ' + msg.sid);
-      var isDuplicate = false;
-      for (var i=0; i<userOnMatchList.length; i++) {
-        if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid) {
-          isDuplicate = true;
-          break;
-        }
-      }
-      if (!isDuplicate) {
+      // var isDuplicate = false;
+      // for (var i=0; i<userOnMatchList.length; i++) {
+      //   if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid) {
+      //     isDuplicate = true;
+      //     break;
+      //   }
+      // }
+      // if (!isDuplicate) {
         userOnMatchList.push({ sid: msg.sid, pid: worker.process.pid, name: msg.name, rating: msg.rating,
           ratingDiff: MIN_DIFF_RATING_FOR_MATCHING, isMatch: false });
-      }
+      // }
       console.log('findMatch : ' + msg.sid);
       console.log(userOnMatchList);
       break;
@@ -223,12 +223,10 @@ function clusterMessageHandler(worker, msg) {
 
 function findMatch() {
   // find match users
-  // for (var i=userOnMatchList.length - 1; i>=1; i--) {
-  for (var i=0; i<userOnMatchList.length-1; i++) {
+  for (var i=userOnMatchList.length - 1; i>=1; i--) {
     var curUser = userOnMatchList[i];
     if (!curUser.isMatch){
-      // for (var j=i-1; j>=0; j--) {
-      for (var j=i+1; j<userOnMatchList.length; j++) {
+      for (var j=i-1; j>=0; j--) {
         var oppenentUser = userOnMatchList[j];
         if (!oppenentUser.isMatch &&
             Math.abs(curUser.rating - oppenentUser.rating) < (curUser.ratingDiff + oppenentUser.ratingDiff)/2){
