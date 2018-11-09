@@ -168,20 +168,17 @@ function clusterMessageHandler(worker, msg) {
     case 'findMatch':
       // var index = userOnMatchList[worker.process.pid].indexOf(msg.id);
       // if (index === -1) {
-      // console.log('findMatch : ' + msg.sid);
-      // var isDuplicate = false;
-      // for (var i=0; i<userOnMatchList.length; i++) {
-      //   if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid) {
-      //     isDuplicate = true;
-      //     break;
-      //   }
-      // }
-      // if (!isDuplicate) {
+      var isDuplicate = false;
+      for (var i=0; i<userOnMatchList.length; i++) {
+        if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid) {
+          isDuplicate = true;
+          break;
+        }
+      }
+      if (!isDuplicate) {
         userOnMatchList.push({ sid: msg.sid, pid: worker.process.pid, name: msg.name, rating: msg.rating,
           ratingDiff: MIN_DIFF_RATING_FOR_MATCHING, isMatch: false });
-      // }
-      console.log('findMatch : ' + msg.sid);
-      console.log(userOnMatchList);
+      }
       break;
     case 'cancelMatch':
       // for (var i=0; i<userOnMatchList.length; i++) {
