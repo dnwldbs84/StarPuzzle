@@ -169,9 +169,19 @@ function clusterMessageHandler(worker, msg) {
       // var index = userOnMatchList[worker.process.pid].indexOf(msg.id);
       // if (index === -1) {
       // console.log('findMatch : ' + msg.sid);
-      userOnMatchList.push({ sid: msg.sid, pid: worker.process.pid, name: msg.name, rating: msg.rating,
-                             ratingDiff: MIN_DIFF_RATING_FOR_MATCHING, isMatch: false });
-      // }
+      console.log('findMatch : ' + msg.sid);
+      console.log(userOnMatchList);
+      var isDuplicate = false;
+      for (var i=0; i<userOnMatchList.length; i++) {
+        if (userOnMatchList[i].sid === msg.sid && userOnMatchList[i].pid === worker.process.pid) {
+          isDuplicate = true;
+          break;
+        }
+      }
+      if (!isDuplicate) {
+        userOnMatchList.push({ sid: msg.sid, pid: worker.process.pid, name: msg.name, rating: msg.rating,
+          ratingDiff: MIN_DIFF_RATING_FOR_MATCHING, isMatch: false });
+      }
       break;
     case 'cancelMatch':
       // for (var i=0; i<userOnMatchList.length; i++) {
@@ -213,20 +223,19 @@ function clusterMessageHandler(worker, msg) {
 
 function findMatch() {
   // find match users
-  for (var i=0; i<userOnMatchList.length - 1; i++) {
+  for (var i=userOnMatchList.length - 1; i>=1; i--) {
     var curUser = userOnMatchList[i];
     if (!curUser.isMatch){
-      for (var j=i+1; j<userOnMatchList.length; j++) {
+      for (var j=i-1; j>=0; j--) {
         var oppenentUser = userOnMatchList[j];
-        if (!oppenentUser.isMatch && Math.abs(curUser.rating - oppenentUser.rating) < curUser.ratingDiff){
+        if (!oppenentUser.isMatch &&
+            Math.abs(curUser.rating - oppenentUser.rating) < (curUser.ratingDiff + oppenentUser.ratingDiff)/2){
           curUser.isMatch = true;
           oppenentUser.isMatch = true;
           var curUserWorker = workers[curUser.pid];
           var oppUserWorker = workers[oppenentUser.pid];
-          process.nextTick(() => {
-              curUserWorker.send({ type: 'matchFound', user: curUser, oppUser: oppenentUser, isGameHost: true });
-              oppUserWorker.send({ type: 'matchFound', user: oppenentUser, oppUser: curUser, isGameHost: false });
-            });
+          curUserWorker.send({ type: 'matchFound', user: curUser, oppUser: oppenentUser, isGameHost: true });
+          oppUserWorker.send({ type: 'matchFound', user: oppenentUser, oppUser: curUser, isGameHost: false });
           break;
         }
       }
