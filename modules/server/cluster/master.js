@@ -228,7 +228,7 @@ function findMatch() {
     var curUser = userOnMatchList[i];
     if (!curUser.isMatch){
       // for (var j=i-1; j>=0; j--) {
-      for (var j=i; j<userOnMatchList.length; j++) {
+      for (var j=i+1; j<userOnMatchList.length; j++) {
         var oppenentUser = userOnMatchList[j];
         if (!oppenentUser.isMatch &&
             Math.abs(curUser.rating - oppenentUser.rating) < (curUser.ratingDiff + oppenentUser.ratingDiff)/2){
