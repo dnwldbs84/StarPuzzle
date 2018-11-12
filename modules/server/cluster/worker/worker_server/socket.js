@@ -141,8 +141,8 @@ exports.initSocket = function(server, cb) {
 
           client.makeInitGem();
 
-          client.curGame.makeStandbyGem();
-          client.curGame.dropStandbyGem();
+          client.curGame.makeStandbyGem(true);
+          client.curGame.dropStandbyGem(true);
 
           client.startGameTimer();
           exports.onClientStartGame(client);

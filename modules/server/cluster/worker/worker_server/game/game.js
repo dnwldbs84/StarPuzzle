@@ -39,8 +39,9 @@ Game.prototype = {
     this.hostSkillRequiredScore2 = skillData[hostSkill] ? skillData[hostSkill].requiredScore2 : skillData[1].requiredScore2;
     this.oppSkillRequiredScore2 = skillData[oppSkill] ? skillData[oppSkill].requiredScore2 : skillData[1].requiredScore2;
   },
-  makeStandbyGem: function() {
+  makeStandbyGem: function(isFirst) {
     var self = this;
+    var delay = isFirst ? 2800 : gameLevelData[self.level].standbyGemAddDelay;
     this.standbyGemTimeout = setTimeout(() => {
         if (self.standbyGemCount < 15) {
           var type = Math.floor(Math.random() * gameLevelData[self.level].gemTypeCount) + 1;
@@ -62,10 +63,11 @@ Game.prototype = {
             self.standbyGemCount++;
           }
           self.makeStandbyGem();
-      }, gameLevelData[self.level].standbyGemAddDelay);
+      }, delay);
   },
-  dropStandbyGem: function() {
+  dropStandbyGem: function(isFirst) {
     var self = this;
+    var delay = isFirst ? 3000 : gameLevelData[self.level].dropDelay;
     this.dropStandbyGemTimeout = setTimeout(() => {
       self.onNeedInformGameData(publicConfig.MESSAGE_DATA_TYPE.INT_ARRAY,
         publicConfig.MESSAGE_TYPE.DROP_STANDBY_GEM);
@@ -82,7 +84,7 @@ Game.prototype = {
         } else {
           self.dropStandbyGem();
         }
-      }, gameLevelData[self.level].dropDelay);
+      }, delay);
   },
   addScore: function(score, addSkillScore, isGameHost) {
     this.score += score;
