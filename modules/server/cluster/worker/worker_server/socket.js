@@ -61,6 +61,8 @@ exports.initSocket = function(server, cb) {
 
     client.on('message', cb);
     client.on('error', function(err) {
+      console.log(err);
+      console.log(arguments);
       // client.close();
     });
     client.on('close', function(code, reason) {
