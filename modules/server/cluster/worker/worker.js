@@ -3,8 +3,10 @@ var workerServer = require('./worker_server');
 var userDB = require('./worker_server/db').user;
 
 var publicModule = require('../../../public');
+
 var pub = null, clients = {};
 var userOnLobbyList = [];
+var aiList = [];
 var isServerDown = false;
 // var os 	= require('os-utils');
 
@@ -48,7 +50,9 @@ exports.initWorker = function(port) {
   }
   workerServer.socket.onClientExit = function(client) {
     if (client.isOnPlayGame) {
-      if (!client.isGameHost) {
+      if (client.oppAIId) {
+        client.aiGameOver(false);
+      } else if (!client.isGameHost) {
         if (client.oppPid) {
           pub.publish(client.oppPid, 'gameOver,' + client.oppSid);
         } else {
@@ -181,8 +185,13 @@ exports.initWorker = function(port) {
       // }
     // }
   }
-
-  // 16 + (1600 - 1700) x (16 / 400) = 12
+  // workerServer.socket.onAIGameOver = function(uid) {
+  //   if (uid) {
+  //     userDB.findById(uid, (err, result) => {
+  //       process.send({ type: 'aiGameOver', uid: uid, rating: result.rating });
+  //     });
+  //   }
+  // }
 
   workerServer.socket.onNeedDbUpdate = function(type, client, var1) {
     if (client.uid) {
@@ -211,6 +220,57 @@ exports.initWorker = function(port) {
               });
           }
           break;
+        case 'aiGameOver':
+          var oppAIId = client.oppAIId;
+          var oppRating = client.oppRating ? client.oppRating :1200;
+          if (var1) {
+            // case win
+            userDB.findById(client.uid, (err, result) => {
+                var myRating = result.rating;
+                var newRating = publicModule.publicFunctions.calcRating(myRating, oppRating, true);
+                // var newRating = myRating + 16 + (oppRating - myRating) * (16 / 400);
+                userDB.updateUserPVPGameData(result, true, newRating);
+                // userDB.updateUserMultiData(client.uid, 'pvpWinCount', result.pvpWinCount + 1,
+                //                                        'rating', newRating);
+              });
+            // update AI
+            userDB.findById(client.uid, (err, result) => {
+                var myRating = result.rating;
+                userDB.findById(oppAIId, (err, oppResult) => {
+                    var oppRating = oppResult.rating;
+                    var newRating = publicModule.publicFunctions.calcRating(oppRating, myRating, false);
+                    // var newRating = myRating - (16 + (myRating - oppRating) * (16 / 400));
+                    userDB.updateUserPVPGameData(oppResult, false, newRating);
+                    process.send({ type: 'aiGameOver', uid: oppAIId, rating: newRating });
+                    // userDB.updateUserMultiData(client.uid, 'pvpLoseCount', result.pvpLoseCount + 1,
+                    //                                        'rating', newRating);
+                  });
+              });
+          } else {
+            // case lose
+            userDB.findById(client.uid, (err, result) => {
+                var myRating = result.rating;
+                var newRating = publicModule.publicFunctions.calcRating(myRating, oppRating, false);
+                // var newRating = myRating - (16 + (myRating - oppRating) * (16 / 400));
+                userDB.updateUserPVPGameData(result, false, newRating);
+                // userDB.updateUserMultiData(client.uid, 'pvpLoseCount', result.pvpLoseCount + 1,
+                //                                        'rating', newRating);
+              });
+            // update AI
+            userDB.findById(client.uid, (err, result) => {
+                var myRating = result.rating;
+                userDB.findById(oppAIId, (err, oppResult) => {
+                    var oppRating = oppResult.rating;
+                    var newRating = publicModule.publicFunctions.calcRating(oppRating, myRating, true);
+                    // var newRating = myRating - (16 + (myRating - oppRating) * (16 / 400));
+                    userDB.updateUserPVPGameData(oppResult, true, newRating);
+                    process.send({ type: 'aiGameOver', uid: oppAIId, rating: newRating });
+                    // userDB.updateUserMultiData(client.uid, 'pvpLoseCount', result.pvpLoseCount + 1,
+                    //                                        'rating', newRating);
+                  });
+              });
+          }
+          break;
       }
     } else {
       console.log('cant find client uid : ' + type);
@@ -232,6 +292,39 @@ function processMessageHandler(msg) {
   try {
     // console.log('on worker message: ' + msg);
     switch (msg.type) {
+      case 'matchWithAI':
+        var client = clients[msg.user.sid];
+        if (client) {
+          client.oppName = msg.oppAI.displayName;
+          client.oppRating = msg.oppAI.rating;
+          client.oppAIId = msg.oppAI.id;
+          client.aiTimerMin = msg.oppAI.aiTimerMin;
+          client.aiTimerMax = msg.oppAI.aiTimerMax;
+          client.isOnMatching = false;
+          client.isOnPlayGame = true;
+
+          var packetData = client.oppName + ',' + client.oppRating + ',' + msg.oppAI.aiFactor;
+          var uid = client.uid;
+          exitLobby(uid);
+
+          if (client.hasFocus) {
+            sendPacket(client, publicModule.encoder.encodePacketWithType(
+              publicModule.config.MESSAGE_DATA_TYPE.STRING,
+              publicModule.config.MESSAGE_TYPE.MATCH_FOUND,
+              packetData
+            ));
+          } else {
+            sendPacket(client, publicModule.encoder.encodePacketWithType(
+              publicModule.config.MESSAGE_DATA_TYPE.STRING,
+              publicModule.config.MESSAGE_TYPE.MATCH_FOUND_ON_BLUR,
+              packetData
+            ));
+          }
+          client.startAICheckStartTimer();
+        } else {
+          process.send({ type: 'matchCanceledWithAI', uid: msg.oppAI.id });
+        }
+        break;
       case 'matchFound':
         var client = clients[msg.user.sid];
         if (client) {
@@ -348,6 +441,12 @@ function processMessageHandler(msg) {
             isServerDown = false;
             workerServer.server.cancelServerDown();
             break;
+        }
+        break;
+      case 'setAIs':
+        var aiUids = msg.uids;
+        for (var i=0; i<aiUids.length; i++) {
+          setAI(aiUids[i]);
         }
         break;
     }
@@ -593,7 +692,9 @@ function socketMessageHandler(packet) {
       case publicModule.config.MESSAGE_TYPE.READY_FOR_GAME:
         var dataAsArray = publicModule.encoder.decodePacketData(packet);
         // this.startCheckGameStartTimer();
-        if (!this.isGameHost) {
+        if (this.oppAIId) {
+          this.startAIGame();
+        } else if (!this.isGameHost) {
           if (this.oppPid) {
             pub.publish(this.oppPid, 'readyForGame,' + this.oppSid + ',' + dataAsArray[0]);
           } else {
@@ -683,6 +784,26 @@ function socketMessageHandler(packet) {
         //     });
         // }
         this.gameOver(false);
+        break;
+      case publicModule.config.MESSAGE_TYPE.UPDATE_TIME:
+        this.updateTime();
+        break;
+      case publicModule.config.MESSAGE_TYPE.LEVEL_UP:
+        if (this.oppAIId) {
+          this.aiGameLevelUp();
+        }
+        break;
+      case publicModule.config.MESSAGE_TYPE.AI_GAME_OVER:
+        // ai game over
+        // check win, lose;
+        var dataAsArray = publicModule.encoder.decodePacketData(packet);
+        if (dataAsArray[0] === 1) {
+          // win
+          this.aiGameOver(true);
+        } else {
+          // lose
+          this.aiGameOver(false);
+        }
         break;
       case publicModule.config.MESSAGE_TYPE.QUIT_GAME:
         if (this.oppPid) {
@@ -889,5 +1010,22 @@ function sendPacket(client, msg) {
 function exitLobby(uid) {
   if (uid) {
     process.send({ type: 'exitLobby', uid: uid });
+  }
+}
+
+function setAI(uid) {
+  // get profile from database
+  userDB.findById(uid, (err, result) => {
+    makeAI(result);
+  });
+}
+function makeAI(profile) {
+  // make AI instance
+  var ai = new workerServer.AI(profile);
+  aiList.push(ai);
+  if (aiList.length === 6) {
+    process.send({ type: 'setAIs', aiList: aiList });
+    // clear
+    aiList = [];
   }
 }

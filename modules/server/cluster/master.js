@@ -58,10 +58,13 @@ if (process.platform === 'linux') {
 var userList = {},
     userOnMatchList = [],
     workers = {},
-    userOnLobbyList = [];
+    userOnLobbyList = [],
+    aiList = [];
 
+var AI_LISTS = [2000, 2001, 2002, 2003, 2004, 2005];
+var MATCHING_DELAY_TO_AI = 15000;
 var MIN_DIFF_RATING_FOR_MATCHING = 20, MAX_DIFF_RATING_FOR_MATCHING = 200;
-var RESTRICT_FREE_CPU = 0.15, RESTRICT_FREE_MEMORY = 0.15;
+var RESTRICT_FREE_CPU = 0.10, RESTRICT_FREE_MEMORY = 0.10;
 var restrictGame = false;
 
 exports.initMaster = function(cluster) {
@@ -110,6 +113,12 @@ exports.initMaster = function(cluster) {
     var worker = cluster.fork();
     workers[worker.process.pid] = worker;
     userList[worker.process.pid] = [];
+
+    // ai setting
+    if (i === 0) {
+      worker.send({type: 'setAIs', uids: AI_LISTS});
+    }
+
     console.log('worker %s started.', worker.process.pid);
     // userOnMatchList[worker.process.pid] = [];
   }
@@ -177,7 +186,7 @@ function clusterMessageHandler(worker, msg) {
       }
       if (!isDuplicate) {
         userOnMatchList.push({ sid: msg.sid, pid: worker.process.pid, name: msg.name, rating: msg.rating,
-          ratingDiff: MIN_DIFF_RATING_FOR_MATCHING, isMatch: false });
+          ratingDiff: MIN_DIFF_RATING_FOR_MATCHING, isMatch: false, matchingStartTime: Date.now() });
       }
       break;
     case 'cancelMatch':
@@ -215,6 +224,30 @@ function clusterMessageHandler(worker, msg) {
         workers[index].send(msg);
       }
       break;
+    case 'setAIs':
+      console.log('setAIs');
+      for (var i=0; i<msg.aiList.length; i++) {
+        aiList.push(msg.aiList[i]);
+      }
+      console.log(aiList);
+      break;
+    case 'matchCanceledWithAI':
+      for (var i=0; i<aiList.length; i++) {
+        if (aiList[i].id === msg.uid) {
+          aiList[i].isMatch = false;
+          break;
+        }
+      }
+      break;
+    case 'aiGameOver':
+      for (var i=0; i<aiList.length; i++) {
+        if (aiList[i].id === msg.uid) {
+          aiList[i].isMatch = false;
+          aiList[i].rating = msg.rating;
+          break;
+        }
+      }
+      break;
   }
 }
 
@@ -244,8 +277,30 @@ function findMatch() {
     if (userOnMatchList[i].isMatch) {
       userOnMatchList.splice(i, 1);
     } else if (userOnMatchList[i].ratingDiff < MAX_DIFF_RATING_FOR_MATCHING) {
-      userOnMatchList[i].ratingDiff += 5;
-      // need cancel match
+      var curUser = userOnMatchList[i];
+      curUser.ratingDiff += 5;
+      if (Date.now() - curUser.matchingStartTime > MATCHING_DELAY_TO_AI) {
+        // match with ai
+        var ratingDiffMin = 500;
+        var closerAI;
+
+        for (var j=0; j<aiList.length; j++) {
+          if (!aiList[j].isMatch) {
+            var ratingDiff = Math.abs(curUser.rating - aiList[j].rating);
+            if (ratingDiff < ratingDiffMin && ratingDiff < 200) {
+              ratingDiffMin = ratingDiff;
+              closerAI = aiList[j];
+            }
+          }
+        }
+
+        if(closerAI) {
+          curUser.isMatch = true;
+          closerAI.isMatch = true;
+          var curUserWorker = workers[curUser.pid];
+          curUserWorker.send({ type: 'matchWithAI', user: curUser, oppAI: closerAI });
+        }
+      }
     }
   }
 }

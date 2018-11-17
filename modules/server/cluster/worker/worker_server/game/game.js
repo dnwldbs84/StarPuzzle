@@ -24,6 +24,8 @@ var Game = function() {
   // this.dropStandbyGemTimer = 1000;
   // this.standbyGemTimer = 500;
 
+  this.aiActTimeout = false;
+
   this.standbyGemTimeout = false;
   this.dropStandbyGemTimeout = false;
 
@@ -43,7 +45,11 @@ Game.prototype = {
     var self = this;
     var delay = isFirst ? 2800 : gameLevelData[self.level].standbyGemAddDelay;
     this.standbyGemTimeout = setTimeout(() => {
-        if (self.standbyGemCount < 15) {
+        if (self.aiActTimeout) {
+          // ai game just send packet
+          self.onNeedInformGameData(publicConfig.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicConfig.MESSAGE_TYPE.ADD_STANDBY_GEM);
+        } else if (self.standbyGemCount < 15) {
           var type = Math.floor(Math.random() * gameLevelData[self.level].gemTypeCount) + 1;
           var score = 0;
           var coordX = 2 * (Math.floor(Math.random() * publicConfig.BOARD_COLS) + 1) - 1;
@@ -71,7 +77,9 @@ Game.prototype = {
     this.dropStandbyGemTimeout = setTimeout(() => {
       self.onNeedInformGameData(publicConfig.MESSAGE_DATA_TYPE.INT_ARRAY,
         publicConfig.MESSAGE_TYPE.DROP_STANDBY_GEM);
-
+      if (self.aiActTimeout) {
+        self.dropStandbyGem();
+      } else {
         self.standbyGemCount--;
 
         self.hostGemCount++;
@@ -84,7 +92,21 @@ Game.prototype = {
         } else {
           self.dropStandbyGem();
         }
-      }, delay);
+      }
+    }, delay);
+  },
+  actAI: function(aiTimerMin, aiTimerMax, isFirst) {
+    var self = this;
+    var moveTimer = Math.floor(Math.random() * (aiTimerMax - aiTimerMin) + aiTimerMin);
+    var delay = isFirst ? 3000 + moveTimer : moveTimer;
+    this.aiActTimeout = setTimeout(() => {
+      self.onNeedInformGameData(publicConfig.MESSAGE_DATA_TYPE.INT_ARRAY,
+        publicConfig.MESSAGE_TYPE.ACT_AI);
+      self.actAI(aiTimerMin, aiTimerMax);
+    }, delay);
+  },
+  aiLevelUp: function() {
+    this.level++;
   },
   addScore: function(score, addSkillScore, isGameHost) {
     this.score += score;
@@ -142,8 +164,10 @@ Game.prototype = {
 
     clearTimeout(this.standbyGemTimeout);
     clearTimeout(this.dropStandbyGemTimeout);
+    clearTimeout(this.aiActTimeout);
     this.standbyGemTimeout = false;
     this.dropStandbyGemTimeout = false;
+    this.aiActTimeout = false;
   }
 }
 exports.makeGameInstance = function() {

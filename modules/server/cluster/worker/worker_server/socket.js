@@ -14,6 +14,7 @@ exports.onClientStartGame = new Function();
 exports.onClientGameOver = new Function();
 exports.onNeedCommu = new Function();
 exports.onNeedDbUpdate = new Function();
+// exports.onAIGameOver = new Function();
 
 exports.initSocket = function(server, cb) {
   var wss = new WebSocket.Server({ server: server, perMessageDeflate: false });
@@ -37,6 +38,10 @@ exports.initSocket = function(server, cb) {
     client.isReadyForGame = false;
 
     client.isGameHost = false;
+
+    client.oppAIId = null;
+    client.aiTimerMin = 0;
+    client.aiTimerMax = 0;
 
     client.skill = 1;
     client.oppSkill = 1;
@@ -149,6 +154,24 @@ exports.initSocket = function(server, cb) {
           // exports.onClientStartGame(client.oppPid, client.oppSid, client.skill, client.oppSkill);
       }
     }
+    client.startAIGame = function() {
+      if (client.checkIsStartGameInterval) {
+        client.curGame = game.makeGameInstance();
+        client.curGame.onNeedInformGameData = function(dataType, type, data) {
+          // send packet only client
+          exports.onNeedCommu(client.sid, process.pid,
+            dataType, type, data);
+        }
+        client.curGame.onGameOverByOverGem = new Function();
+
+        client.curGame.makeStandbyGem(true);
+        client.curGame.dropStandbyGem(true);
+
+        client.curGame.actAI(client.aiTimerMin, client.aiTimerMax, true);
+
+        client.startAIGameTimer();
+      }
+    }
     client.startCheckGameStartTimer = function() {
       var self = client;
       client.checkIsStartGameInterval = setInterval(() => {
@@ -164,6 +187,27 @@ exports.initSocket = function(server, cb) {
             publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
             publicModule.config.MESSAGE_TYPE.GAME_CANCELED);
 
+          clearInterval(self.checkIsStartGameInterval);
+          self.checkIsStartGameInterval = false;
+          self.checkIsStartGameCount = 0;
+
+          if (self.curGame) {
+            self.curGame.gameOver();
+          }
+
+          self.initGameVars();
+        }
+      }, 1000);
+    }
+    client.startAICheckStartTimer = function() {
+      var self = client;
+      client.checkIsStartGameInterval = setInterval(() => {
+        self.checkIsStartGameCount++;
+        if (self.checkIsStartGameCount > 10) {
+          console.log('cancel game(AI)');
+          exports.onNeedCommu(self.sid, process.pid,
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.GAME_CANCELED);
           clearInterval(self.checkIsStartGameInterval);
           self.checkIsStartGameInterval = false;
           self.checkIsStartGameCount = 0;
@@ -196,6 +240,29 @@ exports.initSocket = function(server, cb) {
           // }
         }
       }, checkUpdateTimer);
+    }
+    client.startAIGameTimer = function() {
+      clearInterval(client.checkIsStartGameInterval);
+      client.checkIsStartGameInterval = false;
+      client.checkIsStartGameCount = 0;
+
+      client.lastUpdateTime = Date.now();
+      client.lastUpdateInteval = setInterval(() => {
+        if (Date.now() - client.lastUpdateTime > maxUpdateDelay) {
+          // close socket??
+          // defeat game
+          // if (client.isGameHost) {
+          // } else {
+          console.log('ai update timer over');
+          client.aiGameOver(false);
+          // }
+        }
+      }, checkUpdateTimer);
+    }
+    client.aiGameLevelUp = function() {
+      if (client.curGame) {
+        client.curGame.aiLevelUp();
+      }
     }
     client.updateTime = function() {
       client.lastUpdateTime = Date.now();
@@ -321,60 +388,28 @@ exports.initSocket = function(server, cb) {
       client.lastUpdateInteval = false;
       clearInterval(client.checkIsStartGameInterval);
       client.checkIsStartGameInterval = false;
-      // if (client.isGameHost && client.curGame && !client.curGame.isGameOver) {
-      //   client.curGame.gameOver();
-      //   if (isWin) {
-      //     exports.onNeedCommu(client.oppSid, client.oppPid,
-      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-      //       publicModule.config.MESSAGE_TYPE.GAME_OVER,
-      //       [2]);
-      //     exports.onNeedSelfCommu(client.sid,
-      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-      //       publicModule.config.MESSAGE_TYPE.GAME_OVER,
-      //       [1]);
-      //   } else {
-      //     exports.onNeedCommu(client.oppSid, client.oppPid,
-      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-      //       publicModule.config.MESSAGE_TYPE.GAME_OVER,
-      //       [1]);
-      //     exports.onNeedSelfCommu(client.sid,
-      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-      //       publicModule.config.MESSAGE_TYPE.GAME_OVER,
-      //       [2]);
-      //   }
-      // } else if (client.isGameHost && !client.curGame) {
-      //   if (isWin) {
-      //     exports.onNeedSelfCommu(client.sid,
-      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-      //       publicModule.config.MESSAGE_TYPE.GAME_OVER,
-      //       [1]);
-      //   } else {
-      //     exports.onNeedSelfCommu(client.sid,
-      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-      //       publicModule.config.MESSAGE_TYPE.GAME_OVER,
-      //       [2]);
-      //   }
-      // }
-
-      // client.initGameVars();
-
-      // client.isGameHost = false;
-      //
-      // // clear match vars;
-      // clearInterval(client.lastUpdateInteval);
-      // client.lastUpdateInteval = false;
-      // clearInterval(client.checkIsStartGameInterval);
-      // client.checkIsStartGameInterval = false;
-      // client.checkIsStartGameCount = 0;
-      //
-      // client.isOnMatching = false;
-      // client.isOnPlayGame = false;
-      // client.isReadyForGame = false;
-      // client.oppSid = null;
-      // client.oppPid = null;
-      // client.isOppReadyForGame = false;
-      // client.curGame = null;
-      // client.oppDeadCheckCount = 0;
+    }
+    client.aiGameOver = function(isWin) {
+      if ((client.curGame && !client.curGame.isGameOver) || !client.curGame) {
+        // db update
+        exports.onNeedDbUpdate('aiGameOver', client, isWin);
+        if (isWin) {
+          exports.onNeedCommu(client.sid, process.pid,
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.AI_GAME_OVER,
+            [1]);
+        } else {
+          exports.onNeedCommu(client.sid, process.pid,
+            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+            publicModule.config.MESSAGE_TYPE.AI_GAME_OVER,
+            [2]);
+        }
+      }
+      if (client.curGame && !client.curGame.isGameOver) {
+        client.curGame.gameOver();
+      }
+      // exports.onAIGameOver(client.oppAIId);
+      client.initGameVars();
     }
     client.initGameVars = function() {
       client.isGameHost = false;
@@ -394,6 +429,9 @@ exports.initSocket = function(server, cb) {
       client.isOppReadyForGame = false;
       client.curGame = null;
       client.oppDeadCheckCount = 0;
+      client.oppAIId = null;
+      client.aiTimerMin = 0;
+      client.aiTimerMax = 0;
     }
   });
 

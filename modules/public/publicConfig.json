@@ -47,6 +47,10 @@
     "GAME_CANCELED" : 38,
     "QUIT_GAME" : 39,
 
+    "ACT_AI" : 44,
+    "UPDATE_TIME" : 45,
+    "AI_GAME_OVER" : 46,
+
     "GOTO_ERROR" : 50,
     "DUPLICATE_JOIN" : 51,
 
