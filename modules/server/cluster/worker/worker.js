@@ -855,23 +855,23 @@ function socketMessageHandler(packet) {
           });
         }
         break;
-      case publicModule.config.MESSAGE_TYPE.PLAY_PVC:
-        if (isServerDown) {
-          sendPacket(this, publicModule.encoder.encodePacketWithType(
-            publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
-            publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
-          if (this.uid) {
-            var uid = this.uid;
-            exitLobby(uid);
-          }
-        } else if (this.uid) {
-          var uid = this.uid;
-          exitLobby(uid);
-          userDB.findUserData(uid, 'playPvcCount', (err, result) => {
-            userDB.updateUserData(uid, 'playPvcCount', result + 1);
-          });
-        }
-        break;
+      // case publicModule.config.MESSAGE_TYPE.PLAY_PVC:
+      //   if (isServerDown) {
+      //     sendPacket(this, publicModule.encoder.encodePacketWithType(
+      //       publicModule.config.MESSAGE_DATA_TYPE.INT_ARRAY,
+      //       publicModule.config.MESSAGE_TYPE.HIGH_RESOURCE_USAGE, [3]));
+      //     if (this.uid) {
+      //       var uid = this.uid;
+      //       exitLobby(uid);
+      //     }
+      //   } else if (this.uid) {
+      //     var uid = this.uid;
+      //     exitLobby(uid);
+      //     // userDB.findUserData(uid, 'playPvcCount', (err, result) => {
+      //     //   userDB.updateUserData(uid, 'playPvcCount', result + 1);
+      //     // });
+      //   }
+      //   break;
       case publicModule.config.MESSAGE_TYPE.REQ_RESYNC_UID:
         sendPacket(this, publicModule.encoder.encodePacketWithType(
           publicModule.config.MESSAGE_DATA_TYPE.INTEGER,
@@ -883,19 +883,19 @@ function socketMessageHandler(packet) {
       case publicModule.config.MESSAGE_TYPE.ON_BLUR:
         this.hasFocus = false;
         break;
-      case publicModule.config.MESSAGE_TYPE.SOLO_GAME_OVER:
-        var packetData = publicModule.encoder.decodePacketData(packet);
-        // console.log(packetData);
-        var score = Math.floor(packetData / 100000);
-        // var rest = packetData % 100000;
-        // var level = Math.floor(rest / 1000);
-        // var combo = rest % 1000;
-        // console.log(score + ' : ' + level + ' : ' + combo);
-        userDB.updateSoloGameScore(this.uid, score);
-        break;
+      // case publicModule.config.MESSAGE_TYPE.SOLO_GAME_OVER:
+      //   var packetData = publicModule.encoder.decodePacketData(packet);
+      //   // console.log(packetData);
+      //   var score = Math.floor(packetData / 100000);
+      //   // var rest = packetData % 100000;
+      //   // var level = Math.floor(rest / 1000);
+      //   // var combo = rest % 1000;
+      //   // console.log(score + ' : ' + level + ' : ' + combo);
+      //   userDB.updateSoloGameScore(this.uid, score);
+      //   break;
       case publicModule.config.MESSAGE_TYPE.PVC_WIN_GAME:
         var dataAsArray = publicModule.encoder.decodePacketData(packet);
-        userDB.updatePVCClearDiff(this.uid, dataAsArray[0]);
+        userDB.updateClearStage(this.uid, dataAsArray[0]);
         break;
       case publicModule.config.MESSAGE_TYPE.JOIN_LOBBY:
         var uid = this.uid;

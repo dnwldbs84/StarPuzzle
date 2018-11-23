@@ -442,5 +442,97 @@
 			"requiredScore1": 1500,
 			"requiredScore2": 3000
 		}
+	},
+	"stageData": {
+		"1": {
+			"desc": "Move And Match",
+			"boardSetting": "1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,2,3,4,5,1,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,0,2,3,4,5,1,1,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,",
+			"mainPosition": "6,7",
+			"startRowCount": 14,
+			"specialGemCount": 0,
+			"moveLimit": 0,
+			"matchCount": 15,
+			"timer": 0
+		},
+		"2": {
+			"desc": "Limit Move Count Match1",
+			"boardSetting": "6,6,6,6,6,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,4,8,8,8,8,4,8,8,8,3,3,8,8,8,2,2,4,8,8,8,0,3,8,8,8,8,2,8,8",
+			"mainPosition": "6,7",
+			"startRowCount": 9,
+			"specialGemCount": 0,
+			"moveLimit": 3,
+			"matchCount": 3,
+			"timer": 0
+		},
+		"3": {
+			"desc": "Limit Move Count Match2",
+			"boardSetting": "1,1,1,2,4,3,5,3,3,5,5,4,3,2,5,5,1,5,4,3,3,4,2,3,2,3,3,2,4,4,1,1,5,2,1,2,1,1,2,1,5,0,4,5,2,3,5,4,3,3",
+			"mainPosition": "6,7",
+			"startRowCount": 9,
+			"specialGemCount": 0,
+			"moveLimit": 7,
+			"matchCount": 3,
+			"timer": 0
+		},
+		"4": {
+			"desc": "Attack And Make Special Stars",
+			"boardSetting": 0,
+			"mainPosition": 0,
+			"startRowCount": 8,
+			"specialGemCount": 15,
+			"moveLimit": 0,
+			"matchCount": 0,
+			"timer": 0
+		},
+		"5": {
+			"desc": "Defence With Skill",
+			"boardSetting": "2,4,3,3,5,5,1,3,4,1,3,1,4,1,4,5,4,1,1,7,4,3,3,2,8,8,5,1,1,7,0,7,3,1,4,8,8,4,1,1,3,7,5,3,2,4,4,1,5,4,5,3,4,1,1,2,1,4,5,3,2",
+			"mainPosition": "6,9",
+			"startRowCount": 11,
+			"specialGemCount": 0,
+			"moveLimit": 0,
+			"matchCount": 0,
+			"timer": 60000
+		},
+		"6": {
+			"desc": "Pvc-Easy",
+			"boardSetting": 0,
+			"mainPosition": 0,
+			"startRowCount": 8,
+			"specialGemCount": 0,
+			"moveLimit": 0,
+			"matchCount": 0,
+			"timer": 0
+		},
+		"7": {
+			"desc": "Limit Move Count Match3",
+			"boardSetting": "2,4,4,5,3,1,3,3,2,3,1,2,1,1,1,4,2,3,3,4,1,5,2,1,5,2,3,1,1,3,2,4,1,2,4,3,4,5,2,2,2,3,5,4,2,4,1,3,4,1",
+			"mainPosition": "6,7",
+			"startRowCount": 9,
+			"specialGemCount": 0,
+			"moveLimit": 8,
+			"matchCount": 8,
+			"timer": 0
+		},
+		"8": {
+			"desc": "Pvc-Normal",
+			"boardSetting": 0,
+			"mainPosition": 0,
+			"startRowCount": 8,
+			"specialGemCount": 0,
+			"moveLimit": 0,
+			"matchCount": 0,
+			"timer": 0
+		},
+		"9": {
+			"desc": "Pvc-Hard",
+			"boardSetting": 0,
+			"mainPosition": 0,
+			"startRowCount": 8,
+			"specialGemCount": 0,
+			"moveLimit": 0,
+			"matchCount": 0,
+			"timer": 0
+		}
 	}
 }

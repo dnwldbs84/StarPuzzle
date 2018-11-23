@@ -11,11 +11,12 @@ var User = function(data) {
   this.pvpWinCount = 0;
   this.pvpLoseCount = 0;
   this.playSoloCount = 0;
-  this.playPvcCount = 0;
-  this.soloBestScoreDate = new Date();
-  this.soloBestScore = 0;
-  this.soloTodayDate = new Date();
-  this.soloTodayBestScore = 0;
+  this.clearStage = 0;
+  // this.playPvcCount = 0;
+  // this.soloBestScoreDate = new Date();
+  // this.soloBestScore = 0;
+  // this.soloTodayDate = new Date();
+  // this.soloTodayBestScore = 0;
 }
 
 module.exports = User

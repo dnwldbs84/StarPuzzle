@@ -282,43 +282,43 @@ exports.deleteUser = function(user) {
     });
   });
 }
-exports.updateSoloGameScore = function(id, score) {
+// exports.updateSoloGameScore = function(id, score) {
+//   process.nextTick(function() {
+//     module.query.findData(conn, 'user', 'id', id, function(err, result) {
+//       if (result) {
+//         var now = exports.dateToStr(new Date());
+//         if (result.soloBestScore < score) {
+//           // update all
+//           var query = 'UPDATE user SET soloBestScoreDate = ' + now +
+//             ', soloBestScore = ' + score + ', soloTodayDate = ' + now +
+//             ', soloTodayBestScore = ' + score + ' WHERE id = ' + id;
+//           module.query.queryDirectly(conn, query, function(result) {
+//             // console.log('soloBestScore update');
+//           });
+//         } else if (exports.dbDateToStr(result.soloTodayDate) !== now) {
+//           // update today data
+//           module.query.updateMultiData(conn, 'user', id, 'soloTodayDate', now, 'soloTodayBestScore', score, function(result) {
+//             // console.log('soloTodayDate update');
+//           });
+//         } else if (result.soloTodayBestScore < score) {
+//           // update today score only
+//           module.query.updateData(conn, 'user', id, 'soloTodayBestScore', score, function(result) {
+//             // console.log('soloTodayBestScore update');
+//           });
+//         }
+//       }
+//     });
+//   });
+// }
+exports.updateClearStage = function(id, diff) {
   process.nextTick(function() {
     module.query.findData(conn, 'user', 'id', id, function(err, result) {
       if (result) {
-        var now = exports.dateToStr(new Date());
-        if (result.soloBestScore < score) {
-          // update all
-          var query = 'UPDATE user SET soloBestScoreDate = ' + now +
-            ', soloBestScore = ' + score + ', soloTodayDate = ' + now +
-            ', soloTodayBestScore = ' + score + ' WHERE id = ' + id;
-          module.query.queryDirectly(conn, query, function(result) {
-            // console.log('soloBestScore update');
-          });
-        } else if (exports.dbDateToStr(result.soloTodayDate) !== now) {
-          // update today data
-          module.query.updateMultiData(conn, 'user', id, 'soloTodayDate', now, 'soloTodayBestScore', score, function(result) {
-            // console.log('soloTodayDate update');
-          });
-        } else if (result.soloTodayBestScore < score) {
-          // update today score only
-          module.query.updateData(conn, 'user', id, 'soloTodayBestScore', score, function(result) {
-            // console.log('soloTodayBestScore update');
-          });
-        }
-      }
-    });
-  });
-}
-exports.updatePVCClearDiff = function(id, diff) {
-  process.nextTick(function() {
-    module.query.findData(conn, 'user', 'id', id, function(err, result) {
-      if (result) {
-        var beforeDiff = result.pvcClearDiff;
+        var beforeDiff = result.clearStage;
         if (diff > beforeDiff) {
           // update
-          module.query.updateData(conn, 'user', id, 'pvcClearDiff', diff, function(result) {
-            // console.log('pvcClearDiff update');
+          module.query.updateData(conn, 'user', id, 'clearStage', diff, function(result) {
+            // console.log('clearStage update');
           });
         }
       }
@@ -377,32 +377,34 @@ exports.getRank = function(type, uid, cb) {
         cb(returnVal);
       });
       break;
-    case 'solo_today':
-      var query =
-      'SELECT' +
-        ' id, displayName, soloTodayBestScore,' +
-        ' ( @real_rank := IF ( @last > soloTodayBestScore, @real_rank:=@rank+1, @real_rank )) AS realRank,' +
-        ' ( @rank := @rank + 1 ) AS r,' +
-        ' ( @last := soloTodayBestScore )' +
-      ' FROM' +
-        ' user AS u,' +
-        ' ( SELECT @rank := 0, @last := 0, @real_rank := 1) AS b' +
-      ' WHERE' +
-        ' soloTodayDate >= date_add(now(), interval -1 day)' +
-      ' ORDER BY' +
-        ' u.soloTodayBestScore DESC LIMIT 30';
-      module.query.queryDirectly(conn, query, function(result) {
-        var returnVal = [];
-        for (var i=0; i<result.length; i++) {
-          if (result[i].id == uid) {
-            returnVal.push({ n: result[i].displayName, r: result[i].realRank, t: result[i].soloTodayBestScore, m: true});
-          } else {
-            returnVal.push({ n: result[i].displayName, r: result[i].realRank, t: result[i].soloTodayBestScore });
-          }
-        }
-        cb(returnVal);
-      });
-      break;
+    // case 'solo_today':
+    //   var query =
+    //   'SELECT' +
+    //     ' id, displayName, soloTodayBestScore,' +
+    //     ' ( @real_rank := IF ( @last > soloTodayBestScore, @real_rank:=@rank+1, @real_rank )) AS realRank,' +
+    //     ' ( @rank := @rank + 1 ) AS r,' +
+    //     ' ( @last := soloTodayBestScore )' +
+    //   ' FROM' +
+    //     ' user AS u,' +
+    //     ' ( SELECT @rank := 0, @last := 0, @real_rank := 1) AS b' +
+    //   ' WHERE' +
+    //     ' soloTodayDate >= date_add(now(), interval -1 day)' +
+    //   ' ORDER BY' +
+    //     ' u.soloTodayBestScore DESC LIMIT 30';
+    //   module.query.queryDirectly(conn, query, function(result) {
+    //     var returnVal = [];
+    //     for (var i=0; i<result.length; i++) {
+    //       if (result[i].id == uid) {
+    //         returnVal.push({ n: result[i].displayName, r: result[i].realRank, t: result[i].soloTodayBestScore, m: true});
+    //       } else {
+    //         returnVal.push({ n: result[i].displayName, r: result[i].realRank, t: result[i].soloTodayBestScore });
+    //       }
+    //     }
+    //     cb(returnVal);
+    //   });
+      // break;
+    default:
+      cb(null);
   }
 
 }

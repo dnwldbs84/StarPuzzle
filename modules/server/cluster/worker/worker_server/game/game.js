@@ -189,5 +189,11 @@ exports.getInitGems = function(level) {
       }
     }
   }
+  for (var i=0; i<3; i++) {
+    var type = Math.floor(Math.random() * (gameLevelData[level].gemTypeCount)) + 1;
+    var coordX = 2 * (Math.floor(Math.random() * publicConfig.BOARD_COLS) + 1) - 1;
+    zipData = type * 16 + coordX;
+    returnArray.push(zipData);
+  }
   return returnArray;
 }

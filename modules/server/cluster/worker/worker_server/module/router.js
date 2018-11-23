@@ -175,7 +175,7 @@ function setClientUser(user) {
     var isGuest = true;
     if (user.googleId) { isGuest = false; }
     var isFirst = true;
-    if (user.playPvcCount) { isFirst = false; }
+    if (user.clearStage) { isFirst = false; }
     // if (user.reConnCount || user.pvpWinCount || user.pvpLoseCount
     //   || user.playSoloCount || user.playPvcCount) { isFirst = false; }
     return {
@@ -183,10 +183,10 @@ function setClientUser(user) {
       displayName: user.displayName,
       rating: user.rating,
       pvpWinCount: user.pvpWinCount,
-      soloBestScore: user.soloBestScore,
-      soloTodayDate: user.soloTodayDate,
-      soloTodayBestScore: user.soloTodayBestScore,
-      pvcClearDiff: user.pvcClearDiff,
+      // soloBestScore: user.soloBestScore,
+      // soloTodayDate: user.soloTodayDate,
+      // soloTodayBestScore: user.soloTodayBestScore,
+      clearStage: user.clearStage,
       isGuest: isGuest,
       isFirst: isFirst
     }

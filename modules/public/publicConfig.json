@@ -18,9 +18,7 @@
     "REQ_RESYNC_UID" : 11,
 
     "PLAY_SOLO" : 12,
-    "PLAY_PVC" : 13,
 
-    "SOLO_GAME_OVER" : 14,
     "PVC_WIN_GAME" : 15,
 
     "ON_FOCUS" : 18,
