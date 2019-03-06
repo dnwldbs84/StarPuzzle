@@ -260,13 +260,15 @@ exports.initWorker = function(port) {
             userDB.findById(client.uid, (err, result) => {
                 var myRating = result.rating;
                 userDB.findById(oppAIId, (err, oppResult) => {
-                    var oppRating = oppResult.rating;
-                    var newRating = publicModule.publicFunctions.calcRating(oppRating, myRating, true);
-                    // var newRating = myRating - (16 + (myRating - oppRating) * (16 / 400));
-                    userDB.updateUserPVPGameData(oppResult, true, newRating);
-                    process.send({ type: 'aiGameOver', uid: oppAIId, rating: newRating });
-                    // userDB.updateUserMultiData(client.uid, 'pvpLoseCount', result.pvpLoseCount + 1,
-                    //                                        'rating', newRating);
+                    if (oppResult) {
+                      var oppRating = oppResult.rating;
+                      var newRating = publicModule.publicFunctions.calcRating(oppRating, myRating, true);
+                      // var newRating = myRating - (16 + (myRating - oppRating) * (16 / 400));
+                      userDB.updateUserPVPGameData(oppResult, true, newRating);
+                      process.send({ type: 'aiGameOver', uid: oppAIId, rating: newRating });
+                      // userDB.updateUserMultiData(client.uid, 'pvpLoseCount', result.pvpLoseCount + 1,
+                      //                                        'rating', newRating);
+                    }
                   });
               });
           }
